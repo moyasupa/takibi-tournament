@@ -1,0 +1,1001 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>スイスドロー大会</title>
+<style>
+*{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#0a0a0f;
+  --bg2:#12121a;
+  --bg3:#1a1a26;
+  --card:#1e1e2e;
+  --border:#2a2a3e;
+  --border2:#3a3a5e;
+  --text:#e8e8f0;
+  --text2:#9090b0;
+  --text3:#5a5a7a;
+  --accent:#f0a500;
+  --accent2:#ff6b35;
+  --blue:#4a9eff;
+  --green:#3dd68c;
+  --red:#ff5566;
+  --yellow:#ffd700;
+}
+html{font-size:16px}
+body{
+  font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;
+  background:var(--bg);
+  color:var(--text);
+  min-height:100vh;
+}
+
+/* HEADER */
+.site-header{
+  background:linear-gradient(135deg,#0a0a0f 0%,#1a1020 100%);
+  border-bottom:1px solid var(--border);
+  padding:1rem 1.5rem;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  position:sticky;
+  top:0;
+  z-index:100;
+}
+.site-header h1{
+  font-size:1.1rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  background:linear-gradient(90deg,var(--accent),var(--accent2));
+  -webkit-background-clip:text;
+  -webkit-text-fill-color:transparent;
+  background-clip:text;
+}
+.round-pill{
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:20px;
+  padding:.25rem .9rem;
+  font-size:.75rem;
+  font-weight:700;
+  color:var(--text2);
+  letter-spacing:.08em;
+}
+
+/* TABS */
+.tabs{
+  display:flex;
+  background:var(--bg2);
+  border-bottom:1px solid var(--border);
+  overflow-x:auto;
+}
+.tab{
+  flex:1;
+  min-width:80px;
+  padding:.75rem .5rem;
+  font-size:.8rem;
+  font-weight:700;
+  letter-spacing:.06em;
+  border:none;
+  background:transparent;
+  color:var(--text3);
+  cursor:pointer;
+  border-bottom:2px solid transparent;
+  transition:.2s;
+  white-space:nowrap;
+}
+.tab.active{color:var(--accent);border-bottom-color:var(--accent)}
+.tab:hover:not(.active){color:var(--text2)}
+
+/* MAIN */
+.main{max-width:720px;margin:0 auto;padding:1rem}
+
+/* CARDS */
+.card{
+  background:var(--card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:1.25rem;
+  margin-bottom:.875rem;
+}
+.card-title{
+  font-size:.7rem;
+  font-weight:800;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--text3);
+  margin-bottom:.875rem;
+}
+
+/* FORM */
+label{font-size:.8rem;color:var(--text2);display:block;margin-bottom:.3rem;font-weight:600}
+input,select{
+  width:100%;
+  padding:.55rem .9rem;
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:8px;
+  color:var(--text);
+  font-size:.9rem;
+  outline:none;
+  transition:.15s;
+}
+input:focus,select:focus{border-color:var(--accent)}
+select option{background:var(--bg3)}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem}
+.form-group{margin-bottom:.75rem}
+
+/* BUTTONS */
+.btn{
+  padding:.55rem 1.25rem;
+  border-radius:9px;
+  font-size:.85rem;
+  font-weight:700;
+  cursor:pointer;
+  border:none;
+  transition:.15s;
+  letter-spacing:.04em;
+}
+.btn:active{transform:scale(.97)}
+.btn-primary{
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  color:#000;
+}
+.btn-primary:hover{opacity:.88}
+.btn-secondary{background:var(--bg3);border:1px solid var(--border2);color:var(--text)}
+.btn-secondary:hover{border-color:var(--text3)}
+.btn-green{background:rgba(61,214,140,.15);border:1px solid rgba(61,214,140,.4);color:var(--green)}
+.btn-green:hover,.btn-green.selected{background:var(--green);color:#000;border-color:var(--green)}
+.btn-red{background:rgba(255,85,102,.12);border:1px solid rgba(255,85,102,.35);color:var(--red)}
+.btn-red:hover,.btn-red.selected{background:var(--red);color:#fff;border-color:var(--red)}
+.btn-yellow{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);color:var(--yellow)}
+.btn-yellow:hover,.btn-yellow.selected{background:var(--yellow);color:#000;border-color:var(--yellow)}
+.btn-blue{background:var(--blue);color:#fff}
+.btn-sm{padding:.35rem .8rem;font-size:.75rem}
+.btn-block{width:100%;margin-top:.5rem;padding:.75rem}
+.btn-row{display:flex;gap:.5rem;margin-top:.75rem}
+.btn-row .btn{flex:1;font-size:.75rem}
+
+/* PLAYER CHIPS */
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+.chip{
+  display:flex;align-items:center;gap:.4rem;
+  background:var(--bg3);
+  border:1px solid var(--border2);
+  border-radius:20px;
+  padding:.3rem .75rem;
+  font-size:.8rem;
+  font-weight:600;
+}
+.chip-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:1rem;line-height:1;padding:0}
+.chip-del:hover{color:var(--red)}
+
+/* INPUT ROW */
+.input-row{display:flex;gap:.5rem}
+.input-row input{flex:1}
+
+/* STATS ROW */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:.875rem}
+.stat-box{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:.6rem .5rem;
+  text-align:center;
+}
+.stat-val{font-size:1.3rem;font-weight:800;color:var(--text)}
+.stat-lbl{font-size:.65rem;color:var(--text3);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+
+/* MATCH CARD */
+.match-item{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:11px;
+  padding:.9rem 1rem;
+  margin-bottom:.6rem;
+}
+.match-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
+.match-round-label{font-size:.65rem;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
+.match-players{display:flex;align-items:center;gap:.6rem}
+.pname{
+  flex:1;
+  text-align:center;
+  padding:.45rem .6rem;
+  background:var(--bg2);
+  border:1px solid var(--border);
+  border-radius:8px;
+  font-size:.85rem;
+  font-weight:700;
+  white-space:nowrap;
+  overflow:hidden;
+  text-overflow:ellipsis;
+}
+.pname.winner{background:rgba(61,214,140,.15);border-color:rgba(61,214,140,.5);color:var(--green)}
+.pname.loser{opacity:.5}
+.vs-label{font-size:.7rem;font-weight:800;color:var(--text3)}
+
+/* STATUS BADGE */
+.badge{
+  display:inline-block;
+  font-size:.65rem;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  padding:.2rem .6rem;
+  border-radius:20px;
+}
+.badge-pending{background:rgba(255,215,0,.12);color:var(--yellow);border:1px solid rgba(255,215,0,.3)}
+.badge-done{background:rgba(61,214,140,.12);color:var(--green);border:1px solid rgba(61,214,140,.3)}
+.badge-bye{background:rgba(74,158,255,.12);color:var(--blue);border:1px solid rgba(74,158,255,.3)}
+
+/* STANDINGS */
+.standings-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.standings-table th{
+  padding:.45rem .6rem;
+  font-size:.65rem;
+  font-weight:800;
+  letter-spacing:.1em;
+  text-transform:uppercase;
+  color:var(--text3);
+  border-bottom:1px solid var(--border);
+  text-align:left;
+}
+.standings-table td{padding:.55rem .6rem;border-bottom:1px solid var(--border)}
+.standings-table tr:last-child td{border-bottom:none}
+.standings-table tr:hover td{background:rgba(255,255,255,.02)}
+.rank-num{
+  display:inline-flex;align-items:center;justify-content:center;
+  width:24px;height:24px;border-radius:50%;
+  font-size:.75rem;font-weight:800;
+  background:var(--bg3);color:var(--text3);
+}
+.rank-1{background:rgba(255,215,0,.2);color:var(--yellow)}
+.rank-2{background:rgba(192,192,192,.2);color:#c0c0c0}
+.rank-3{background:rgba(205,127,50,.2);color:#cd7f32}
+
+/* PLAYER SELECT */
+.player-select-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem}
+.player-select-btn{
+  background:var(--bg3);
+  border:1px solid var(--border);
+  border-radius:10px;
+  padding:.75rem .5rem;
+  text-align:center;
+  cursor:pointer;
+  transition:.15s;
+  color:var(--text);
+}
+.player-select-btn:hover{border-color:var(--accent);background:rgba(240,165,0,.07)}
+.player-select-btn .ps-name{font-weight:700;font-size:.9rem;margin-bottom:2px}
+.player-select-btn .ps-score{font-size:.7rem;color:var(--text3)}
+
+/* PLAYER HEADER */
+.player-header{
+  display:flex;align-items:center;gap:.875rem;margin-bottom:.875rem;
+}
+.p-avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent2));
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;font-weight:800;color:#000;
+  flex-shrink:0;
+}
+.p-info-name{font-weight:800;font-size:1rem}
+.p-info-sub{font-size:.72rem;color:var(--text3)}
+
+/* MY MATCH RESULT */
+.my-result{
+  text-align:center;font-size:.85rem;font-weight:700;margin-top:.5rem;padding:.35rem;border-radius:6px;
+}
+.my-win{background:rgba(61,214,140,.12);color:var(--green)}
+.my-lose{background:rgba(255,85,102,.1);color:var(--red)}
+.my-draw{background:rgba(255,215,0,.1);color:var(--yellow)}
+
+/* FINAL PODIUM */
+.podium{display:flex;flex-direction:column;gap:.6rem}
+.podium-item{
+  display:flex;align-items:center;gap:.875rem;
+  padding:.75rem;
+  background:var(--bg3);
+  border-radius:10px;
+  border:1px solid var(--border);
+}
+.podium-icon{font-size:1.5rem;width:36px;text-align:center}
+.podium-name{font-weight:800;font-size:.95rem}
+.podium-score{font-size:.75rem;color:var(--text3)}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
+  background:var(--card);
+  border:1px solid var(--border2);
+  border-radius:12px;
+  padding:.65rem 1.25rem;
+  font-size:.82rem;font-weight:700;
+  color:var(--text);
+  z-index:999;
+  opacity:0;
+  transition:.25s;
+  white-space:nowrap;
+  box-shadow:0 8px 32px rgba(0,0,0,.5);
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* LOADING */
+.loading{
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  min-height:200px;gap:1rem;color:var(--text3);font-size:.85rem;
+}
+.spinner{
+  width:32px;height:32px;
+  border:3px solid var(--border);
+  border-top-color:var(--accent);
+  border-radius:50%;
+  animation:spin .8s linear infinite;
+}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* INFO BOX */
+.info-box{
+  background:rgba(74,158,255,.08);
+  border:1px solid rgba(74,158,255,.25);
+  border-radius:8px;
+  padding:.65rem .9rem;
+  font-size:.8rem;
+  color:var(--blue);
+  margin-bottom:.75rem;
+}
+.warn-box{
+  background:rgba(255,107,53,.08);
+  border:1px solid rgba(255,107,53,.25);
+  border-radius:8px;
+  padding:.65rem .9rem;
+  font-size:.8rem;
+  color:var(--accent2);
+  margin-bottom:.75rem;
+}
+
+/* SECTION DIVIDER */
+.section-label{
+  font-size:.65rem;font-weight:800;letter-spacing:.12em;
+  text-transform:uppercase;color:var(--text3);
+  margin:.875rem 0 .4rem;
+}
+
+@media(max-width:480px){
+  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .form-row{grid-template-columns:1fr}
+  .site-header h1{font-size:.95rem}
+}
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <h1 id="header-title">SWISS DRAW</h1>
+  <div class="round-pill" id="round-pill">準備中</div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="switchTab('admin')" id="tab-admin">⚙️ 運営</button>
+  <button class="tab" onclick="switchTab('player')" id="tab-player">👤 参加者</button>
+  <button class="tab" onclick="switchTab('standings')" id="tab-standings">🏆 順位表</button>
+</div>
+
+<main class="main">
+
+  <!-- ========== ADMIN ========== -->
+  <div id="view-admin">
+
+    <!-- SETUP -->
+    <div id="setup-view">
+      <div class="card">
+        <div class="card-title">大会設定</div>
+        <div class="form-group">
+          <label>大会名</label>
+          <input type="text" id="cfg-name" value="ゲーム大会 2025" />
+        </div>
+        <div class="form-row">
+          <div>
+            <label>ラウンド数</label>
+            <select id="cfg-rounds">
+              <option value="3">3ラウンド</option>
+              <option value="4" selected>4ラウンド</option>
+              <option value="5">5ラウンド</option>
+              <option value="6">6ラウンド</option>
+              <option value="7">7ラウンド</option>
+            </select>
+          </div>
+          <div>
+            <label>タイブレーク</label>
+            <select id="cfg-tiebreak">
+              <option value="buchholz">ブッフホルツ</option>
+              <option value="mw">対戦相手勝利数</option>
+            </select>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">参加者登録</div>
+        <div class="input-row">
+          <input type="text" id="player-input" placeholder="名前を入力（Enterで追加）"
+            onkeydown="if(event.key==='Enter')addPlayer()" />
+          <button class="btn btn-primary" onclick="addPlayer()">追加</button>
+        </div>
+        <div class="chips" id="player-chips"></div>
+        <div style="margin-top:.65rem;font-size:.75rem;color:var(--text3)" id="player-count">0人登録済み</div>
+      </div>
+
+      <button class="btn btn-primary btn-block" onclick="startTournament()">
+        🎮 大会を開始する
+      </button>
+    </div>
+
+    <!-- RUNNING -->
+    <div id="running-view" style="display:none">
+      <div class="stats-row">
+        <div class="stat-box"><div class="stat-val" id="s-round">-</div><div class="stat-lbl">ラウンド</div></div>
+        <div class="stat-box"><div class="stat-val" id="s-players">-</div><div class="stat-lbl">参加者</div></div>
+        <div class="stat-box"><div class="stat-val" id="s-done">-</div><div class="stat-lbl">完了</div></div>
+        <div class="stat-box"><div class="stat-val" id="s-total">-</div><div class="stat-lbl">総試合</div></div>
+      </div>
+
+      <div class="card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem">
+          <div class="card-title" style="margin:0">現在のラウンド</div>
+          <button class="btn btn-blue btn-sm" onclick="nextRound()" id="next-round-btn">次のラウンドへ →</button>
+        </div>
+        <div id="admin-matches"></div>
+      </div>
+
+      <div class="card">
+        <div class="card-title">参加者一覧</div>
+        <div class="chips" id="admin-player-chips"></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ========== PLAYER ========== -->
+  <div id="view-player" style="display:none">
+    <div id="player-select-view">
+      <div class="card">
+        <div class="card-title">あなたの名前を選んでください</div>
+        <div class="player-select-grid" id="player-select-grid"></div>
+      </div>
+    </div>
+    <div id="player-game-view" style="display:none">
+      <div class="card">
+        <div class="player-header">
+          <div class="p-avatar" id="p-avatar"></div>
+          <div>
+            <div class="p-info-name" id="p-name-disp"></div>
+            <div class="p-info-sub">参加者ビュー</div>
+          </div>
+          <button class="btn btn-secondary btn-sm" onclick="deselectPlayer()" style="margin-left:auto">変更</button>
+        </div>
+        <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
+          <div class="stat-box"><div class="stat-val" id="p-wins" style="color:var(--green)">0</div><div class="stat-lbl">勝利</div></div>
+          <div class="stat-box"><div class="stat-val" id="p-losses" style="color:var(--red)">0</div><div class="stat-lbl">敗北</div></div>
+          <div class="stat-box"><div class="stat-val" id="p-draws" style="color:var(--yellow)">0</div><div class="stat-lbl">引分</div></div>
+        </div>
+      </div>
+      <div id="player-matches"></div>
+    </div>
+  </div>
+
+  <!-- ========== STANDINGS ========== -->
+  <div id="view-standings" style="display:none">
+    <div class="card">
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem">
+        <div class="card-title" style="margin:0">順位表</div>
+        <span style="font-size:.72rem;color:var(--text3)" id="standings-label"></span>
+      </div>
+      <table class="standings-table">
+        <thead>
+          <tr>
+            <th style="width:36px">順位</th>
+            <th>名前</th>
+            <th style="width:36px;text-align:center">勝</th>
+            <th style="width:36px;text-align:center">負</th>
+            <th style="width:36px;text-align:center">引</th>
+            <th style="width:44px;text-align:center">得点</th>
+            <th style="width:52px;text-align:center">TB</th>
+          </tr>
+        </thead>
+        <tbody id="standings-body"></tbody>
+      </table>
+      <div style="margin-top:.6rem;font-size:.7rem;color:var(--text3)">TB = タイブレーク値（勝点同点時の順位決定）</div>
+    </div>
+    <div id="final-result" style="display:none">
+      <div class="card" style="border-color:rgba(240,165,0,.5)">
+        <div class="card-title" style="color:var(--accent)">🏆 最終結果</div>
+        <div class="podium" id="final-podium"></div>
+      </div>
+    </div>
+  </div>
+
+</main>
+
+<div class="toast" id="toast"></div>
+
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDzTetOEKF_KE-Zb0_UAB5NOCURlQTTAgQ",
+  authDomain: "takibi-tournament.firebaseapp.com",
+  projectId: "takibi-tournament",
+  storageBucket: "takibi-tournament.firebasestorage.app",
+  messagingSenderId: "539863702203",
+  appId: "1:539863702203:web:4969c0f129086b3d66e79e"
+};
+
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const TOURNAMENT_ID = "main";
+const docRef = doc(db, "tournaments", TOURNAMENT_ID);
+
+let state = null;
+let selectedPlayer = null;
+
+// =========================================
+// FIREBASE SYNC
+// =========================================
+async function saveState(){
+  try{
+    await setDoc(docRef, state);
+  }catch(e){
+    toast("⚠️ 保存エラー: "+e.message);
+  }
+}
+
+async function loadState(){
+  try{
+    const snap = await getDoc(docRef);
+    if(snap.exists()){
+      state = snap.data();
+    } else {
+      state = makeInitialState();
+    }
+    render();
+  }catch(e){
+    toast("⚠️ 読み込みエラー: "+e.message);
+  }
+}
+
+// リアルタイム同期
+onSnapshot(docRef, (snap)=>{
+  if(snap.exists()){
+    state = snap.data();
+    render();
+  }
+});
+
+function makeInitialState(){
+  return {
+    name:"新しい大会",
+    totalRounds:4,
+    tiebreak:"buchholz",
+    players:[],
+    currentRound:0,
+    matches:[],
+    status:"setup"
+  };
+}
+
+// =========================================
+// UTILS
+// =========================================
+function toast(msg){
+  const t=document.getElementById('toast');
+  t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2500);
+}
+
+function getScore(p){ return p.wins + p.draws*0.5 }
+
+function calcTiebreak(player){
+  if(!player.opponents||player.opponents.length===0) return 0;
+  if(state.tiebreak==='buchholz'){
+    return player.opponents.reduce((sum,oid)=>{
+      const op=state.players.find(p=>p.id===oid);
+      return sum+(op?getScore(op):0);
+    },0);
+  } else {
+    return player.opponents.reduce((sum,oid)=>{
+      const op=state.players.find(p=>p.id===oid);
+      return sum+(op?op.wins:0);
+    },0);
+  }
+}
+
+function getRoundMatches(r){ return (state.matches||[]).filter(m=>m.round===r) }
+function isRoundComplete(r){ return getRoundMatches(r).every(m=>m.result||m.isBye) }
+
+// =========================================
+// TAB
+// =========================================
+window.switchTab = function(tab){
+  ['admin','player','standings'].forEach(t=>{
+    document.getElementById('view-'+t).style.display = t===tab?'block':'none';
+    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+  });
+  if(tab==='standings') renderStandings();
+  if(tab==='player') renderPlayerView();
+}
+
+// =========================================
+// ADMIN — SETUP
+// =========================================
+window.addPlayer = function(){
+  const inp=document.getElementById('player-input');
+  const name=inp.value.trim();
+  if(!name){toast('名前を入力してください');return}
+  if(!state.players) state.players=[];
+  if(state.players.find(p=>p.name===name)){toast('すでに登録されています');return}
+  if(state.players.length>=64){toast('最大64人まで');return}
+  state.players.push({
+    id:'p_'+Date.now()+'_'+Math.floor(Math.random()*9999),
+    name, wins:0, losses:0, draws:0, opponents:[], bye:false
+  });
+  inp.value='';
+  renderSetup();
+  saveState();
+}
+
+window.removePlayer = function(id){
+  state.players=state.players.filter(p=>p.id!==id);
+  renderSetup();
+  saveState();
+}
+
+function renderSetup(){
+  const chips=document.getElementById('player-chips');
+  chips.innerHTML=(state.players||[]).map(p=>
+    `<div class="chip">${p.name}<button class="chip-del" onclick="removePlayer('${p.id}')">×</button></div>`
+  ).join('');
+  document.getElementById('player-count').textContent=(state.players||[]).length+'人登録済み';
+}
+
+window.startTournament = function(){
+  if(!state.players||state.players.length<2){toast('最低2人必要です');return}
+  state.name=document.getElementById('cfg-name').value||'大会';
+  state.totalRounds=parseInt(document.getElementById('cfg-rounds').value);
+  state.tiebreak=document.getElementById('cfg-tiebreak').value;
+  state.status='running';
+  state.currentRound=1;
+  state.matches=[];
+  generateRound();
+  saveState();
+  toast('大会を開始しました！');
+}
+
+// =========================================
+// MATCHING
+// =========================================
+function generateRound(){
+  const r=state.currentRound;
+  let available=[...state.players].sort((a,b)=>{
+    const ds=getScore(b)-getScore(a);
+    if(ds!==0)return ds;
+    return Math.random()-.5;
+  });
+
+  const roundMatches=[];
+  if(available.length%2===1){
+    const eligible=available.filter(p=>!p.bye).reverse();
+    const byePlayer=eligible.length>0?eligible[0]:available[available.length-1];
+    available=available.filter(p=>p.id!==byePlayer.id);
+    const bp=state.players.find(p=>p.id===byePlayer.id);
+    bp.bye=true; bp.wins++;
+    roundMatches.push({id:'m_'+r+'_bye',round:r,p1:byePlayer.id,p2:null,result:'bye',isBye:true});
+  }
+
+  let tries=0;
+  while(available.length>=2&&tries<500){
+    tries++;
+    const p1=available[0];
+    let p2idx=1;
+    while(p2idx<available.length&&(p1.opponents||[]).includes(available[p2idx].id)){p2idx++}
+    if(p2idx>=available.length)p2idx=1;
+    const p2=available[p2idx];
+    available.splice(p2idx,1);
+    available.shift();
+    const rp1=state.players.find(p=>p.id===p1.id);
+    const rp2=state.players.find(p=>p.id===p2.id);
+    if(!rp1.opponents)rp1.opponents=[];
+    if(!rp2.opponents)rp2.opponents=[];
+    rp1.opponents.push(p2.id);
+    rp2.opponents.push(p1.id);
+    roundMatches.push({
+      id:'m_'+r+'_'+roundMatches.length,
+      round:r,p1:p1.id,p2:p2.id,result:null,isBye:false
+    });
+  }
+  state.matches=[...state.matches,...roundMatches];
+}
+
+// =========================================
+// RESULT REPORT
+// =========================================
+window.reportResult = function(matchId, winner){
+  const match=state.matches.find(m=>m.id===matchId);
+  if(!match||match.result)return;
+  const p1=state.players.find(p=>p.id===match.p1);
+  const p2=state.players.find(p=>p.id===match.p2);
+  if(winner==='draw'){
+    match.result='draw'; p1.draws++; p2.draws++;
+  } else if(winner===match.p1){
+    match.result=match.p1; p1.wins++; p2.losses++;
+  } else {
+    match.result=match.p2; p2.wins++; p1.losses++;
+  }
+  saveState();
+  toast('✓ 結果を登録しました');
+}
+
+window.nextRound = function(){
+  if(state.status==='finished'){toast('大会は終了しています');return}
+  if(!isRoundComplete(state.currentRound)){toast('全試合の結果を入力してください');return}
+  if(state.currentRound>=state.totalRounds){
+    state.status='finished';
+    saveState();
+    toast('🏆 大会が終了しました！');
+    return;
+  }
+  state.currentRound++;
+  generateRound();
+  saveState();
+  toast('ラウンド '+state.currentRound+' を開始しました！');
+}
+
+// =========================================
+// RENDER
+// =========================================
+function render(){
+  if(!state) return;
+
+  // header
+  document.getElementById('header-title').textContent = state.name||'SWISS DRAW';
+  if(state.status==='setup'){
+    document.getElementById('round-pill').textContent='準備中';
+  } else {
+    document.getElementById('round-pill').textContent=
+      'ラウンド '+state.currentRound+' / '+state.totalRounds;
+  }
+
+  if(state.status==='setup'){
+    document.getElementById('setup-view').style.display='block';
+    document.getElementById('running-view').style.display='none';
+    // sync form
+    document.getElementById('cfg-name').value=state.name||'';
+    renderSetup();
+  } else {
+    document.getElementById('setup-view').style.display='none';
+    document.getElementById('running-view').style.display='block';
+    renderRunning();
+  }
+
+  // if player tab active
+  if(document.getElementById('view-player').style.display!=='none'){
+    renderPlayerView();
+  }
+  if(document.getElementById('view-standings').style.display!=='none'){
+    renderStandings();
+  }
+}
+
+function renderRunning(){
+  const matches=getRoundMatches(state.currentRound);
+  const done=matches.filter(m=>m.result).length;
+  document.getElementById('s-round').textContent=state.currentRound+'/'+state.totalRounds;
+  document.getElementById('s-players').textContent=(state.players||[]).length;
+  document.getElementById('s-done').textContent=done;
+  document.getElementById('s-total').textContent=matches.length;
+
+  const btn=document.getElementById('next-round-btn');
+  if(state.status==='finished'){
+    btn.textContent='大会終了 ✓'; btn.disabled=true;
+  } else if(state.currentRound>=state.totalRounds&&isRoundComplete(state.currentRound)){
+    btn.textContent='結果を確定する 🏆'; btn.disabled=false;
+  } else {
+    btn.textContent='次のラウンドへ →'; btn.disabled=false;
+  }
+
+  document.getElementById('admin-matches').innerHTML=
+    matches.map(m=>renderMatchHTML(m)).join('');
+
+  document.getElementById('admin-player-chips').innerHTML=
+    (state.players||[]).map(p=>
+      `<div class="chip" style="flex-direction:column;align-items:flex-start;gap:1px;border-radius:10px;padding:.4rem .7rem">
+        <span style="font-weight:700;font-size:.82rem">${p.name}</span>
+        <span style="font-size:.68rem;color:var(--text3)">${p.wins}勝 ${p.losses}負 ${p.draws}分</span>
+      </div>`
+    ).join('');
+}
+
+function renderMatchHTML(m){
+  const p1=state.players.find(p=>p.id===m.p1);
+  const p2=m.p2?state.players.find(p=>p.id===m.p2):null;
+  if(m.isBye){
+    return `<div class="match-item">
+      <div class="match-meta">
+        <span class="match-round-label">不戦勝</span>
+        <span class="badge badge-bye">BYE</span>
+      </div>
+      <span style="font-size:.85rem;font-weight:700;color:var(--blue)">👤 ${p1?p1.name:'?'} — 不戦勝（+1点）</span>
+    </div>`;
+  }
+  const done=!!m.result;
+  const p1win=m.result===m.p1;
+  const p2win=m.result===m.p2;
+  const isDraw=m.result==='draw';
+  return `<div class="match-item">
+    <div class="match-meta">
+      <span class="match-round-label">R${m.round} — 対戦${m.id.split('_')[2]}</span>
+      <span class="badge ${done?'badge-done':'badge-pending'}">${done?'完了':'待機中'}</span>
+    </div>
+    <div class="match-players">
+      <div class="pname ${p1win?'winner':done&&!isDraw?'loser':''}">${p1?p1.name:'?'}</div>
+      <div class="vs-label">VS</div>
+      <div class="pname ${p2win?'winner':done&&!isDraw?'loser':''}">${p2?p2.name:'?'}</div>
+    </div>
+    ${!done?`<div class="btn-row">
+      <button class="btn btn-green" onclick="reportResult('${m.id}','${m.p1}')">🏆 ${p1?p1.name:'?'}</button>
+      <button class="btn btn-yellow" onclick="reportResult('${m.id}','draw')">🤝 引分</button>
+      <button class="btn btn-green" onclick="reportResult('${m.id}','${m.p2}')">🏆 ${p2?p2.name:'?'}</button>
+    </div>`:
+    `<div class="my-result ${isDraw?'my-draw':p1win?'my-win':'my-win'}">
+      ${isDraw?'🤝 引き分け':'🏆 '+(p1win?(p1?p1.name:'?'):(p2?p2.name:'?'))+' 勝利'}
+    </div>`}
+  </div>`;
+}
+
+// =========================================
+// PLAYER VIEW
+// =========================================
+window.selectPlayer = function(id){
+  selectedPlayer=id;
+  document.getElementById('player-select-view').style.display='none';
+  document.getElementById('player-game-view').style.display='block';
+  renderPlayerView();
+}
+
+window.deselectPlayer = function(){
+  selectedPlayer=null;
+  document.getElementById('player-select-view').style.display='block';
+  document.getElementById('player-game-view').style.display='none';
+  renderPlayerSelectGrid();
+}
+
+function renderPlayerView(){
+  renderPlayerSelectGrid();
+  if(!selectedPlayer) return;
+  const p=state&&state.players?state.players.find(pl=>pl.id===selectedPlayer):null;
+  if(!p){selectedPlayer=null;return}
+
+  document.getElementById('p-avatar').textContent=p.name[0];
+  document.getElementById('p-name-disp').textContent=p.name;
+  document.getElementById('p-wins').textContent=p.wins;
+  document.getElementById('p-losses').textContent=p.losses;
+  document.getElementById('p-draws').textContent=p.draws;
+
+  const myMatches=(state.matches||[]).filter(m=>m.p1===p.id||m.p2===p.id);
+  const el=document.getElementById('player-matches');
+  if(myMatches.length===0){
+    el.innerHTML='<div class="card" style="text-align:center;color:var(--text3);font-size:.85rem">まだ対戦がありません</div>';
+    return;
+  }
+  el.innerHTML=myMatches.map(m=>{
+    if(m.isBye)return`<div class="match-item">
+      <div class="match-meta"><span class="match-round-label">R${m.round}</span><span class="badge badge-bye">BYE</span></div>
+      <div style="font-size:.85rem;color:var(--blue);font-weight:700">不戦勝 ✓</div>
+    </div>`;
+    const opp=state.players.find(pl=>pl.id===(m.p1===p.id?m.p2:m.p1));
+    const done=!!m.result;
+    const myWin=m.result===p.id;
+    const isDraw=m.result==='draw';
+    const canReport=(m.round===state.currentRound&&!done&&state.status==='running');
+    const oppId=m.p1===p.id?m.p2:m.p1;
+    return`<div class="match-item">
+      <div class="match-meta">
+        <span class="match-round-label">R${m.round}</span>
+        <span class="badge ${done?'badge-done':'badge-pending'}">${done?'完了':'待機中'}</span>
+      </div>
+      <div class="match-players">
+        <div class="pname" style="background:rgba(240,165,0,.12);border-color:rgba(240,165,0,.3)">
+          ${p.name} <span style="font-size:.65rem;color:var(--text3)">(あなた)</span>
+        </div>
+        <div class="vs-label">VS</div>
+        <div class="pname">${opp?opp.name:'?'}</div>
+      </div>
+      ${done?`<div class="my-result ${isDraw?'my-draw':myWin?'my-win':'my-lose'}">
+        ${isDraw?'🤝 引き分け':myWin?'🏆 あなたの勝利！':'😔 敗北'}
+      </div>`:''}
+      ${canReport?`<div class="btn-row">
+        <button class="btn btn-green" onclick="reportResult('${m.id}','${p.id}')">🏆 自分の勝利</button>
+        <button class="btn btn-yellow" onclick="reportResult('${m.id}','draw')">🤝 引き分け</button>
+        <button class="btn btn-red" onclick="reportResult('${m.id}','${oppId}')">😔 自分の敗北</button>
+      </div>`:''}
+    </div>`;
+  }).join('');
+}
+
+function renderPlayerSelectGrid(){
+  const el=document.getElementById('player-select-grid');
+  if(!state||!state.players||state.players.length===0){
+    el.innerHTML='<div style="color:var(--text3);font-size:.85rem">大会がまだ開始されていません</div>';
+    return;
+  }
+  el.innerHTML=state.players.map(p=>
+    `<button class="player-select-btn" onclick="selectPlayer('${p.id}')">
+      <div class="ps-name">${p.name}</div>
+      <div class="ps-score">${getScore(p)}点 / ${p.wins}勝${p.losses}負</div>
+    </button>`
+  ).join('');
+}
+
+// =========================================
+// STANDINGS
+// =========================================
+function renderStandings(){
+  if(!state||!state.players){return}
+  const sorted=[...state.players].sort((a,b)=>{
+    const ds=getScore(b)-getScore(a);
+    if(ds!==0)return ds;
+    return calcTiebreak(b)-calcTiebreak(a);
+  });
+  const tbody=document.getElementById('standings-body');
+  tbody.innerHTML=sorted.map((p,i)=>{
+    const rk=i+1;
+    const tb=calcTiebreak(p).toFixed(1);
+    const sc=getScore(p).toFixed(1);
+    let rCls='rank-num';
+    if(rk===1)rCls+=' rank-1';
+    else if(rk===2)rCls+=' rank-2';
+    else if(rk===3)rCls+=' rank-3';
+    return`<tr>
+      <td><span class="${rCls}">${rk}</span></td>
+      <td style="font-weight:${rk<=3?800:400}">${p.name}</td>
+      <td style="text-align:center;color:var(--green)">${p.wins}</td>
+      <td style="text-align:center;color:var(--red)">${p.losses}</td>
+      <td style="text-align:center;color:var(--yellow)">${p.draws}</td>
+      <td style="text-align:center;font-weight:700">${sc}</td>
+      <td style="text-align:center;font-size:.75rem;color:var(--text3)">${tb}</td>
+    </tr>`;
+  }).join('');
+
+  document.getElementById('standings-label').textContent=
+    state.currentRound>0?('R'+state.currentRound+' 時点'):'';
+
+  const finalDiv=document.getElementById('final-result');
+  if(state.status==='finished'){
+    finalDiv.style.display='block';
+    const top3=sorted.slice(0,3);
+    document.getElementById('final-podium').innerHTML=top3.map((p,i)=>
+      `<div class="podium-item">
+        <div class="podium-icon">${['🥇','🥈','🥉'][i]}</div>
+        <div>
+          <div class="podium-name">${p.name}</div>
+          <div class="podium-score">${getScore(p)}点 / タイブレーク: ${calcTiebreak(p).toFixed(1)}</div>
+        </div>
+      </div>`
+    ).join('');
+  } else {
+    finalDiv.style.display='none';
+  }
+}
+
+// =========================================
+// INIT
+// =========================================
+loadState();
+</script>
+</body>
+</html>
