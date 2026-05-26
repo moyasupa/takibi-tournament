@@ -2,386 +2,398 @@
 <html lang="ja">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
 <title>スイスドロー大会</title>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
-*{box-sizing:border-box;margin:0;padding:0}
+*{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
-  --bg:#0a0a0f;
-  --bg2:#12121a;
-  --bg3:#1a1a26;
-  --card:#1e1e2e;
-  --border:#2a2a3e;
-  --border2:#3a3a5e;
-  --text:#e8e8f0;
-  --text2:#9090b0;
-  --text3:#5a5a7a;
-  --accent:#f0a500;
-  --accent2:#ff6b35;
-  --blue:#4a9eff;
-  --green:#3dd68c;
-  --red:#ff5566;
-  --yellow:#ffd700;
+  --bg:#F5F4F0;
+  --bg2:#EDECEA;
+  --card:#FFFFFF;
+  --border:#D8D6D0;
+  --border2:#C4C1BA;
+  --text:#1A1916;
+  --text2:#6B6860;
+  --text3:#A09D97;
+  --accent:#C8440A;
+  --accent-light:#F5E8E2;
+  --blue:#1A5CB8;
+  --blue-light:#E4EDF8;
+  --green:#1A7A3C;
+  --green-light:#E3F4EA;
+  --red:#B81A1A;
+  --red-light:#F8E3E3;
+  --yellow:#8A6A00;
+  --yellow-light:#F8F3E0;
+  --shadow:0 1px 4px rgba(0,0,0,.08),0 4px 16px rgba(0,0,0,.06);
+  --shadow-lg:0 4px 24px rgba(0,0,0,.12);
+  --radius:12px;
+  --radius-sm:8px;
+  --radius-lg:16px;
 }
-html{font-size:16px}
+html{font-size:16px;scroll-behavior:smooth}
 body{
-  font-family:'Hiragino Kaku Gothic ProN','Noto Sans JP',Meiryo,sans-serif;
+  font-family:'Noto Sans JP',sans-serif;
   background:var(--bg);
   color:var(--text);
   min-height:100vh;
+  line-height:1.5;
 }
 
-/* HEADER */
+/* ── HEADER ── */
 .site-header{
-  background:linear-gradient(135deg,#0a0a0f 0%,#1a1020 100%);
-  border-bottom:1px solid var(--border);
-  padding:1rem 1.5rem;
-  display:flex;
-  align-items:center;
-  justify-content:space-between;
-  position:sticky;
-  top:0;
-  z-index:100;
+  background:var(--text);
+  padding:0 1.25rem;
+  height:56px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:200;
 }
 .site-header h1{
-  font-size:1.1rem;
-  font-weight:800;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  background:linear-gradient(90deg,var(--accent),var(--accent2));
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-  background-clip:text;
+  font-size:1rem;font-weight:900;letter-spacing:.12em;
+  color:#fff;text-transform:uppercase;
 }
-.round-pill{
-  background:var(--bg3);
-  border:1px solid var(--border2);
-  border-radius:20px;
-  padding:.25rem .9rem;
-  font-size:.75rem;
-  font-weight:700;
-  color:var(--text2);
-  letter-spacing:.08em;
+.header-right{display:flex;align-items:center;gap:.75rem}
+.round-tag{
+  font-family:'DM Mono',monospace;
+  font-size:.75rem;font-weight:500;
+  background:rgba(255,255,255,.12);
+  color:#fff;border-radius:4px;
+  padding:.25rem .65rem;letter-spacing:.04em;
+}
+.admin-tag{
+  font-size:.7rem;font-weight:700;
+  background:var(--accent);color:#fff;
+  border-radius:4px;padding:.25rem .6rem;letter-spacing:.06em;text-transform:uppercase;
 }
 
-/* TABS */
+/* ── TABS ── */
 .tabs{
-  display:flex;
-  background:var(--bg2);
-  border-bottom:1px solid var(--border);
-  overflow-x:auto;
+  display:grid;grid-template-columns:1fr 1fr 1fr;
+  background:var(--card);
+  border-bottom:1.5px solid var(--border);
+  position:sticky;top:56px;z-index:100;
 }
 .tab{
-  flex:1;
-  min-width:80px;
-  padding:.75rem .5rem;
-  font-size:.8rem;
-  font-weight:700;
-  letter-spacing:.06em;
-  border:none;
-  background:transparent;
-  color:var(--text3);
-  cursor:pointer;
-  border-bottom:2px solid transparent;
-  transition:.2s;
-  white-space:nowrap;
+  padding:1rem .5rem;
+  font-size:.85rem;font-weight:700;letter-spacing:.04em;
+  border:none;background:transparent;color:var(--text3);
+  cursor:pointer;border-bottom:2.5px solid transparent;
+  transition:.18s;
 }
 .tab.active{color:var(--accent);border-bottom-color:var(--accent)}
-.tab:hover:not(.active){color:var(--text2)}
+.tab:hover:not(.active){color:var(--text2);background:var(--bg2)}
 
-/* MAIN */
-.main{max-width:720px;margin:0 auto;padding:1rem}
+/* ── MAIN ── */
+.main{max-width:680px;margin:0 auto;padding:1.25rem 1rem 4rem}
 
-/* CARDS */
+/* ── CARDS ── */
 .card{
   background:var(--card);
   border:1px solid var(--border);
-  border-radius:14px;
-  padding:1.25rem;
-  margin-bottom:.875rem;
+  border-radius:var(--radius-lg);
+  padding:1.5rem;
+  margin-bottom:1rem;
+  box-shadow:var(--shadow);
 }
 .card-title{
-  font-size:.7rem;
-  font-weight:800;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  color:var(--text3);
-  margin-bottom:.875rem;
+  font-size:.7rem;font-weight:900;letter-spacing:.14em;
+  text-transform:uppercase;color:var(--text3);
+  margin-bottom:1.125rem;
+  padding-bottom:.75rem;
+  border-bottom:1px solid var(--border);
 }
 
-/* FORM */
-label{font-size:.8rem;color:var(--text2);display:block;margin-bottom:.3rem;font-weight:600}
+/* ── FORM ── */
+label{font-size:.85rem;color:var(--text2);display:block;margin-bottom:.4rem;font-weight:700}
 input,select{
   width:100%;
-  padding:.55rem .9rem;
-  background:var(--bg3);
-  border:1px solid var(--border);
-  border-radius:8px;
+  padding:.75rem 1rem;
+  background:var(--bg2);
+  border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);
   color:var(--text);
-  font-size:.9rem;
-  outline:none;
-  transition:.15s;
+  font-size:1rem;
+  font-family:'Noto Sans JP',sans-serif;
+  outline:none;transition:.15s;
 }
-input:focus,select:focus{border-color:var(--accent)}
-select option{background:var(--bg3)}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.75rem;margin-bottom:.75rem}
-.form-group{margin-bottom:.75rem}
+input:focus,select:focus{border-color:var(--accent);background:#fff}
+select option{background:#fff}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:.875rem;margin-bottom:.875rem}
+.form-group{margin-bottom:.875rem}
 
-/* BUTTONS */
+/* ── BUTTONS ── */
 .btn{
-  padding:.55rem 1.25rem;
-  border-radius:9px;
-  font-size:.85rem;
-  font-weight:700;
-  cursor:pointer;
-  border:none;
-  transition:.15s;
-  letter-spacing:.04em;
+  display:inline-flex;align-items:center;justify-content:center;
+  padding:.875rem 1.5rem;
+  border-radius:var(--radius-sm);
+  font-size:.95rem;font-weight:700;
+  font-family:'Noto Sans JP',sans-serif;
+  cursor:pointer;border:none;
+  transition:.15s;letter-spacing:.02em;
+  min-height:52px;
+  user-select:none;
 }
 .btn:active{transform:scale(.97)}
-.btn-primary{
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  color:#000;
-}
-.btn-primary:hover{opacity:.88}
-.btn-secondary{background:var(--bg3);border:1px solid var(--border2);color:var(--text)}
-.btn-secondary:hover{border-color:var(--text3)}
-.btn-green{background:rgba(61,214,140,.15);border:1px solid rgba(61,214,140,.4);color:var(--green)}
-.btn-green:hover,.btn-green.selected{background:var(--green);color:#000;border-color:var(--green)}
-.btn-red{background:rgba(255,85,102,.12);border:1px solid rgba(255,85,102,.35);color:var(--red)}
+.btn-primary{background:var(--accent);color:#fff}
+.btn-primary:hover{background:#A83808}
+.btn-secondary{background:var(--bg2);border:1.5px solid var(--border2);color:var(--text)}
+.btn-secondary:hover{background:var(--border)}
+.btn-green{background:var(--green-light);border:1.5px solid #A8D8BA;color:var(--green);font-weight:700}
+.btn-green:hover,.btn-green.selected{background:var(--green);color:#fff;border-color:var(--green)}
+.btn-red{background:var(--red-light);border:1.5px solid #D8A8A8;color:var(--red);font-weight:700}
 .btn-red:hover,.btn-red.selected{background:var(--red);color:#fff;border-color:var(--red)}
-.btn-yellow{background:rgba(255,215,0,.1);border:1px solid rgba(255,215,0,.3);color:var(--yellow)}
-.btn-yellow:hover,.btn-yellow.selected{background:var(--yellow);color:#000;border-color:var(--yellow)}
+.btn-yellow{background:var(--yellow-light);border:1.5px solid #D8C878;color:var(--yellow);font-weight:700}
+.btn-yellow:hover,.btn-yellow.selected{background:#8A6A00;color:#fff;border-color:#8A6A00}
 .btn-blue{background:var(--blue);color:#fff}
-.btn-sm{padding:.35rem .8rem;font-size:.75rem}
-.btn-block{width:100%;margin-top:.5rem;padding:.75rem}
-.btn-row{display:flex;gap:.5rem;margin-top:.75rem}
-.btn-row .btn{flex:1;font-size:.75rem}
+.btn-blue:hover{background:#144FA0}
+.btn-danger{background:var(--red-light);border:1.5px solid #D8A8A8;color:var(--red)}
+.btn-danger:hover{background:var(--red);color:#fff}
+.btn-sm{padding:.55rem 1rem;font-size:.82rem;min-height:40px}
+.btn-xs{padding:.35rem .7rem;font-size:.75rem;min-height:32px}
+.btn-block{width:100%;margin-top:.625rem}
+.btn-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:.5rem;margin-top:.875rem}
+.btn-row .btn{font-size:.82rem;padding:.75rem .5rem;min-height:48px}
 
-/* PLAYER CHIPS */
-.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.5rem}
+/* ── LOGIN ── */
+.login-wrap{
+  min-height:100vh;display:flex;align-items:center;justify-content:center;
+  background:var(--bg);padding:1.5rem;
+}
+.login-box{
+  background:var(--card);border:1px solid var(--border);
+  border-radius:var(--radius-lg);padding:2.5rem 2rem;
+  width:100%;max-width:380px;
+  box-shadow:var(--shadow-lg);
+}
+.login-box h2{font-size:1.25rem;font-weight:900;margin-bottom:.4rem;letter-spacing:.04em}
+.login-box p{font-size:.85rem;color:var(--text2);margin-bottom:1.5rem}
+.login-error{
+  background:var(--red-light);border:1px solid #D8A8A8;
+  color:var(--red);font-size:.85rem;font-weight:700;
+  border-radius:var(--radius-sm);padding:.65rem 1rem;
+  margin-bottom:1rem;display:none;
+}
+
+/* ── CHIPS ── */
+.chips{display:flex;flex-wrap:wrap;gap:.4rem;margin-top:.75rem}
 .chip{
   display:flex;align-items:center;gap:.4rem;
-  background:var(--bg3);
-  border:1px solid var(--border2);
-  border-radius:20px;
-  padding:.3rem .75rem;
-  font-size:.8rem;
-  font-weight:600;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:6px;padding:.4rem .8rem;
+  font-size:.85rem;font-weight:500;
 }
-.chip-del{background:none;border:none;color:var(--text3);cursor:pointer;font-size:1rem;line-height:1;padding:0}
+.chip-del{
+  background:none;border:none;color:var(--text3);
+  cursor:pointer;font-size:1rem;line-height:1;padding:0;
+  transition:.12s;
+}
 .chip-del:hover{color:var(--red)}
 
-/* INPUT ROW */
-.input-row{display:flex;gap:.5rem}
+/* ── INPUT ROW ── */
+.input-row{display:flex;gap:.625rem}
 .input-row input{flex:1}
 
-/* STATS ROW */
-.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.5rem;margin-bottom:.875rem}
+/* ── STATS ── */
+.stats-row{display:grid;grid-template-columns:repeat(4,1fr);gap:.625rem;margin-bottom:1rem}
 .stat-box{
-  background:var(--bg3);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:.6rem .5rem;
-  text-align:center;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:.875rem .5rem;text-align:center;
 }
-.stat-val{font-size:1.3rem;font-weight:800;color:var(--text)}
-.stat-lbl{font-size:.65rem;color:var(--text3);font-weight:600;letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.stat-val{font-size:1.5rem;font-weight:900;color:var(--text);font-family:'DM Mono',monospace}
+.stat-lbl{font-size:.68rem;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;margin-top:3px}
 
-/* MATCH CARD */
+/* ── MATCH CARD ── */
 .match-item{
-  background:var(--bg3);
-  border:1px solid var(--border);
-  border-radius:11px;
-  padding:.9rem 1rem;
-  margin-bottom:.6rem;
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius);padding:1rem 1.125rem;margin-bottom:.75rem;
 }
-.match-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:.6rem}
-.match-round-label{font-size:.65rem;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase}
-.match-players{display:flex;align-items:center;gap:.6rem}
+.match-item:last-child{margin-bottom:0}
+.match-meta{display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem}
+.match-label{font-size:.72rem;font-weight:700;color:var(--text3);letter-spacing:.08em;text-transform:uppercase;font-family:'DM Mono',monospace}
+.match-players{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:.625rem}
 .pname{
-  flex:1;
-  text-align:center;
-  padding:.45rem .6rem;
-  background:var(--bg2);
-  border:1px solid var(--border);
-  border-radius:8px;
-  font-size:.85rem;
-  font-weight:700;
-  white-space:nowrap;
-  overflow:hidden;
-  text-overflow:ellipsis;
+  text-align:center;padding:.625rem .75rem;
+  background:var(--card);border:1.5px solid var(--border);
+  border-radius:var(--radius-sm);
+  font-size:.95rem;font-weight:700;
+  white-space:nowrap;overflow:hidden;text-overflow:ellipsis;
+  transition:.15s;
 }
-.pname.winner{background:rgba(61,214,140,.15);border-color:rgba(61,214,140,.5);color:var(--green)}
-.pname.loser{opacity:.5}
-.vs-label{font-size:.7rem;font-weight:800;color:var(--text3)}
+.pname.winner{background:var(--green-light);border-color:#A8D8BA;color:var(--green)}
+.pname.loser{opacity:.45}
+.pname.self{background:var(--blue-light);border-color:#A8C4E8;color:var(--blue)}
+.vs-label{font-size:.75rem;font-weight:900;color:var(--text3);letter-spacing:.04em}
+.match-result-label{
+  text-align:center;font-size:.88rem;font-weight:700;
+  margin-top:.75rem;padding:.5rem;border-radius:6px;
+}
+.result-win{background:var(--green-light);color:var(--green)}
+.result-lose{background:var(--red-light);color:var(--red)}
+.result-draw{background:var(--yellow-light);color:var(--yellow)}
 
-/* STATUS BADGE */
+/* ── BADGES ── */
 .badge{
-  display:inline-block;
-  font-size:.65rem;
-  font-weight:800;
-  letter-spacing:.08em;
-  text-transform:uppercase;
-  padding:.2rem .6rem;
-  border-radius:20px;
+  display:inline-flex;align-items:center;
+  font-size:.68rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;
+  padding:.25rem .65rem;border-radius:4px;
 }
-.badge-pending{background:rgba(255,215,0,.12);color:var(--yellow);border:1px solid rgba(255,215,0,.3)}
-.badge-done{background:rgba(61,214,140,.12);color:var(--green);border:1px solid rgba(61,214,140,.3)}
-.badge-bye{background:rgba(74,158,255,.12);color:var(--blue);border:1px solid rgba(74,158,255,.3)}
+.badge-pending{background:var(--yellow-light);color:var(--yellow);border:1px solid #D8C878}
+.badge-done{background:var(--green-light);color:var(--green);border:1px solid #A8D8BA}
+.badge-bye{background:var(--blue-light);color:var(--blue);border:1px solid #A8C4E8}
 
-/* STANDINGS */
-.standings-table{width:100%;border-collapse:collapse;font-size:.82rem}
-.standings-table th{
-  padding:.45rem .6rem;
-  font-size:.65rem;
-  font-weight:800;
-  letter-spacing:.1em;
-  text-transform:uppercase;
-  color:var(--text3);
-  border-bottom:1px solid var(--border);
-  text-align:left;
+/* ── EDIT RESULT ── */
+.edit-result-area{
+  margin-top:.75rem;padding:.875rem;
+  background:var(--card);border:1.5px solid var(--border2);
+  border-radius:var(--radius-sm);
+  display:none;
 }
-.standings-table td{padding:.55rem .6rem;border-bottom:1px solid var(--border)}
+.edit-result-area.open{display:block}
+.edit-title{font-size:.75rem;font-weight:700;color:var(--text3);margin-bottom:.625rem;letter-spacing:.06em}
+
+/* ── PLAYER SELECT ── */
+.player-select-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.625rem}
+.player-select-btn{
+  background:var(--bg2);border:1.5px solid var(--border);
+  border-radius:var(--radius);padding:1rem .75rem;
+  text-align:center;cursor:pointer;transition:.15s;
+  color:var(--text);
+}
+.player-select-btn:hover{border-color:var(--accent);background:var(--accent-light)}
+.ps-name{font-weight:700;font-size:1rem;margin-bottom:3px}
+.ps-score{font-size:.75rem;color:var(--text3);font-family:'DM Mono',monospace}
+
+/* ── PLAYER HEADER ── */
+.player-header{display:flex;align-items:center;gap:1rem;margin-bottom:1rem}
+.p-avatar{
+  width:48px;height:48px;border-radius:50%;
+  background:var(--text);color:#fff;
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.2rem;font-weight:900;flex-shrink:0;
+}
+.p-info-name{font-weight:900;font-size:1.1rem}
+.p-info-sub{font-size:.75rem;color:var(--text3);margin-top:2px}
+
+/* ── STANDINGS ── */
+.standings-table{width:100%;border-collapse:collapse;font-size:.88rem}
+.standings-table th{
+  padding:.55rem .75rem;
+  font-size:.68rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--text3);border-bottom:1.5px solid var(--border);text-align:left;
+}
+.standings-table td{padding:.75rem .75rem;border-bottom:1px solid var(--border)}
 .standings-table tr:last-child td{border-bottom:none}
-.standings-table tr:hover td{background:rgba(255,255,255,.02)}
+.standings-table tbody tr:hover td{background:var(--bg2)}
 .rank-num{
   display:inline-flex;align-items:center;justify-content:center;
-  width:24px;height:24px;border-radius:50%;
-  font-size:.75rem;font-weight:800;
-  background:var(--bg3);color:var(--text3);
+  width:28px;height:28px;border-radius:50%;
+  font-size:.8rem;font-weight:900;font-family:'DM Mono',monospace;
+  background:var(--bg2);color:var(--text2);
 }
-.rank-1{background:rgba(255,215,0,.2);color:var(--yellow)}
-.rank-2{background:rgba(192,192,192,.2);color:#c0c0c0}
-.rank-3{background:rgba(205,127,50,.2);color:#cd7f32}
+.rank-1{background:#FFF0B0;color:#7A5500;border:1.5px solid #E8D060}
+.rank-2{background:#EDEDEF;color:#444450;border:1.5px solid #C8C8CC}
+.rank-3{background:#F5E4D4;color:#7A3800;border:1.5px solid #D8B090}
 
-/* PLAYER SELECT */
-.player-select-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(130px,1fr));gap:.5rem}
-.player-select-btn{
-  background:var(--bg3);
-  border:1px solid var(--border);
-  border-radius:10px;
-  padding:.75rem .5rem;
-  text-align:center;
-  cursor:pointer;
-  transition:.15s;
-  color:var(--text);
-}
-.player-select-btn:hover{border-color:var(--accent);background:rgba(240,165,0,.07)}
-.player-select-btn .ps-name{font-weight:700;font-size:.9rem;margin-bottom:2px}
-.player-select-btn .ps-score{font-size:.7rem;color:var(--text3)}
-
-/* PLAYER HEADER */
-.player-header{
-  display:flex;align-items:center;gap:.875rem;margin-bottom:.875rem;
-}
-.p-avatar{
-  width:44px;height:44px;border-radius:50%;
-  background:linear-gradient(135deg,var(--accent),var(--accent2));
-  display:flex;align-items:center;justify-content:center;
-  font-size:1.1rem;font-weight:800;color:#000;
-  flex-shrink:0;
-}
-.p-info-name{font-weight:800;font-size:1rem}
-.p-info-sub{font-size:.72rem;color:var(--text3)}
-
-/* MY MATCH RESULT */
-.my-result{
-  text-align:center;font-size:.85rem;font-weight:700;margin-top:.5rem;padding:.35rem;border-radius:6px;
-}
-.my-win{background:rgba(61,214,140,.12);color:var(--green)}
-.my-lose{background:rgba(255,85,102,.1);color:var(--red)}
-.my-draw{background:rgba(255,215,0,.1);color:var(--yellow)}
-
-/* FINAL PODIUM */
-.podium{display:flex;flex-direction:column;gap:.6rem}
+/* ── PODIUM ── */
+.podium{display:flex;flex-direction:column;gap:.625rem}
 .podium-item{
-  display:flex;align-items:center;gap:.875rem;
-  padding:.75rem;
-  background:var(--bg3);
-  border-radius:10px;
-  border:1px solid var(--border);
+  display:flex;align-items:center;gap:1rem;
+  padding:.875rem 1rem;
+  background:var(--bg2);border:1px solid var(--border);border-radius:var(--radius);
 }
-.podium-icon{font-size:1.5rem;width:36px;text-align:center}
-.podium-name{font-weight:800;font-size:.95rem}
-.podium-score{font-size:.75rem;color:var(--text3)}
+.podium-rank{font-size:1.3rem;width:36px;text-align:center;font-weight:900}
+.podium-name{font-weight:900;font-size:1rem}
+.podium-score{font-size:.78rem;color:var(--text3);font-family:'DM Mono',monospace;margin-top:2px}
 
-/* TOAST */
+/* ── ADMIN PLAYER LIST ── */
+.player-list-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:.5rem}
+.player-list-item{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:var(--radius-sm);padding:.625rem .875rem;
+}
+.pli-name{font-weight:700;font-size:.9rem}
+.pli-score{font-size:.72rem;color:var(--text3);font-family:'DM Mono',monospace;margin-top:2px}
+
+/* ── TOAST ── */
 .toast{
-  position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(20px);
-  background:var(--card);
-  border:1px solid var(--border2);
-  border-radius:12px;
-  padding:.65rem 1.25rem;
-  font-size:.82rem;font-weight:700;
-  color:var(--text);
-  z-index:999;
-  opacity:0;
-  transition:.25s;
-  white-space:nowrap;
-  box-shadow:0 8px 32px rgba(0,0,0,.5);
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(12px);
+  background:var(--text);color:#fff;
+  border-radius:var(--radius-sm);
+  padding:.75rem 1.5rem;
+  font-size:.88rem;font-weight:700;
+  z-index:9999;opacity:0;transition:.22s;
+  white-space:nowrap;box-shadow:var(--shadow-lg);
+  pointer-events:none;
 }
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
 
-/* LOADING */
-.loading{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  min-height:200px;gap:1rem;color:var(--text3);font-size:.85rem;
-}
-.spinner{
-  width:32px;height:32px;
-  border:3px solid var(--border);
-  border-top-color:var(--accent);
-  border-radius:50%;
-  animation:spin .8s linear infinite;
-}
-@keyframes spin{to{transform:rotate(360deg)}}
-
-/* INFO BOX */
+/* ── INFO/WARN ── */
 .info-box{
-  background:rgba(74,158,255,.08);
-  border:1px solid rgba(74,158,255,.25);
-  border-radius:8px;
-  padding:.65rem .9rem;
-  font-size:.8rem;
-  color:var(--blue);
-  margin-bottom:.75rem;
+  background:var(--blue-light);border:1px solid #A8C4E8;
+  border-radius:var(--radius-sm);padding:.75rem 1rem;
+  font-size:.85rem;color:var(--blue);margin-bottom:.875rem;font-weight:500;
 }
 .warn-box{
-  background:rgba(255,107,53,.08);
-  border:1px solid rgba(255,107,53,.25);
-  border-radius:8px;
-  padding:.65rem .9rem;
-  font-size:.8rem;
-  color:var(--accent2);
-  margin-bottom:.75rem;
+  background:var(--yellow-light);border:1px solid #D8C878;
+  border-radius:var(--radius-sm);padding:.75rem 1rem;
+  font-size:.85rem;color:var(--yellow);margin-bottom:.875rem;font-weight:500;
 }
 
-/* SECTION DIVIDER */
+/* ── SECTION LABEL ── */
 .section-label{
-  font-size:.65rem;font-weight:800;letter-spacing:.12em;
-  text-transform:uppercase;color:var(--text3);
-  margin:.875rem 0 .4rem;
+  font-size:.7rem;font-weight:900;letter-spacing:.12em;text-transform:uppercase;
+  color:var(--text3);margin:.875rem 0 .5rem;
 }
+
+/* ── DIVIDER ── */
+.divider{height:1px;background:var(--border);margin:.875rem 0}
 
 @media(max-width:480px){
-  .stats-row{grid-template-columns:repeat(2,1fr)}
+  .stats-row{grid-template-columns:1fr 1fr}
   .form-row{grid-template-columns:1fr}
-  .site-header h1{font-size:.95rem}
+  .btn-row{grid-template-columns:1fr}
+  .btn-row .btn{min-height:52px}
+  .player-select-grid{grid-template-columns:1fr 1fr}
 }
 </style>
 </head>
 <body>
 
+<!-- ========== LOGIN SCREEN ========== -->
+<div class="login-wrap" id="login-screen">
+  <div class="login-box">
+    <h2>運営ログイン</h2>
+    <p>運営者専用画面です。パスワードを入力してください。</p>
+    <div class="login-error" id="login-error">パスワードが違います</div>
+    <div class="form-group">
+      <label>パスワード</label>
+      <input type="password" id="pw-input" placeholder="パスワードを入力"
+        onkeydown="if(event.key==='Enter')doLogin()" />
+    </div>
+    <button class="btn btn-primary btn-block" onclick="doLogin()">ログイン</button>
+    <div style="margin-top:1.5rem;padding-top:1rem;border-top:1px solid var(--border)">
+      <button class="btn btn-secondary btn-block" onclick="goParticipant()">参加者として入場</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== MAIN APP ========== -->
+<div id="main-app" style="display:none">
+
 <header class="site-header">
   <h1 id="header-title">SWISS DRAW</h1>
-  <div class="round-pill" id="round-pill">準備中</div>
+  <div class="header-right">
+    <div class="round-tag" id="round-tag">準備中</div>
+    <div class="admin-tag" id="admin-tag" style="display:none">運営</div>
+  </div>
 </header>
 
 <div class="tabs">
-  <button class="tab active" onclick="switchTab('admin')" id="tab-admin">⚙️ 運営</button>
-  <button class="tab" onclick="switchTab('player')" id="tab-player">👤 参加者</button>
-  <button class="tab" onclick="switchTab('standings')" id="tab-standings">🏆 順位表</button>
+  <button class="tab active" onclick="switchTab('admin')" id="tab-admin">運営</button>
+  <button class="tab" onclick="switchTab('player')" id="tab-player">参加者</button>
+  <button class="tab" onclick="switchTab('standings')" id="tab-standings">順位表</button>
 </div>
 
 <main class="main">
@@ -426,11 +438,11 @@ select option{background:var(--bg3)}
           <button class="btn btn-primary" onclick="addPlayer()">追加</button>
         </div>
         <div class="chips" id="player-chips"></div>
-        <div style="margin-top:.65rem;font-size:.75rem;color:var(--text3)" id="player-count">0人登録済み</div>
+        <div style="margin-top:.75rem;font-size:.82rem;color:var(--text3);font-weight:500" id="player-count">0人登録済み</div>
       </div>
 
-      <button class="btn btn-primary btn-block" onclick="startTournament()">
-        🎮 大会を開始する
+      <button class="btn btn-primary btn-block" style="font-size:1rem;min-height:56px" onclick="startTournament()">
+        大会を開始する
       </button>
     </div>
 
@@ -444,16 +456,21 @@ select option{background:var(--bg3)}
       </div>
 
       <div class="card">
-        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem">
-          <div class="card-title" style="margin:0">現在のラウンド</div>
-          <button class="btn btn-blue btn-sm" onclick="nextRound()" id="next-round-btn">次のラウンドへ →</button>
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+          <div class="card-title" style="margin:0;border:none;padding:0">現在のラウンド</div>
+          <button class="btn btn-primary btn-sm" onclick="nextRound()" id="next-round-btn">次のラウンドへ</button>
         </div>
         <div id="admin-matches"></div>
       </div>
 
       <div class="card">
         <div class="card-title">参加者一覧</div>
-        <div class="chips" id="admin-player-chips"></div>
+        <div class="player-list-grid" id="admin-player-list"></div>
+      </div>
+
+      <div class="card" style="border-color:var(--red-light)">
+        <div class="card-title">大会管理</div>
+        <button class="btn btn-danger btn-block" onclick="resetTournament()">大会をリセットして次の大会へ</button>
       </div>
     </div>
 
@@ -463,7 +480,7 @@ select option{background:var(--bg3)}
   <div id="view-player" style="display:none">
     <div id="player-select-view">
       <div class="card">
-        <div class="card-title">あなたの名前を選んでください</div>
+        <div class="card-title">名前を選んでください</div>
         <div class="player-select-grid" id="player-select-grid"></div>
       </div>
     </div>
@@ -477,7 +494,7 @@ select option{background:var(--bg3)}
           </div>
           <button class="btn btn-secondary btn-sm" onclick="deselectPlayer()" style="margin-left:auto">変更</button>
         </div>
-        <div class="stats-row" style="grid-template-columns:repeat(3,1fr)">
+        <div class="stats-row" style="grid-template-columns:1fr 1fr 1fr;margin-bottom:0">
           <div class="stat-box"><div class="stat-val" id="p-wins" style="color:var(--green)">0</div><div class="stat-lbl">勝利</div></div>
           <div class="stat-box"><div class="stat-val" id="p-losses" style="color:var(--red)">0</div><div class="stat-lbl">敗北</div></div>
           <div class="stat-box"><div class="stat-val" id="p-draws" style="color:var(--yellow)">0</div><div class="stat-lbl">引分</div></div>
@@ -490,42 +507,45 @@ select option{background:var(--bg3)}
   <!-- ========== STANDINGS ========== -->
   <div id="view-standings" style="display:none">
     <div class="card">
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.875rem">
-        <div class="card-title" style="margin:0">順位表</div>
-        <span style="font-size:.72rem;color:var(--text3)" id="standings-label"></span>
+      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
+        <div class="card-title" style="margin:0;border:none;padding:0">順位表</div>
+        <span style="font-size:.78rem;color:var(--text3);font-family:'DM Mono',monospace" id="standings-label"></span>
       </div>
       <table class="standings-table">
         <thead>
           <tr>
-            <th style="width:36px">順位</th>
+            <th style="width:40px">順位</th>
             <th>名前</th>
-            <th style="width:36px;text-align:center">勝</th>
-            <th style="width:36px;text-align:center">負</th>
-            <th style="width:36px;text-align:center">引</th>
-            <th style="width:44px;text-align:center">得点</th>
-            <th style="width:52px;text-align:center">TB</th>
+            <th style="width:40px;text-align:center">勝</th>
+            <th style="width:40px;text-align:center">負</th>
+            <th style="width:40px;text-align:center">引</th>
+            <th style="width:48px;text-align:center">得点</th>
+            <th style="width:56px;text-align:center">TB</th>
           </tr>
         </thead>
         <tbody id="standings-body"></tbody>
       </table>
-      <div style="margin-top:.6rem;font-size:.7rem;color:var(--text3)">TB = タイブレーク値（勝点同点時の順位決定）</div>
+      <div style="margin-top:.75rem;font-size:.72rem;color:var(--text3)">TB = タイブレーク値（得点同点時の順位決定）</div>
     </div>
     <div id="final-result" style="display:none">
-      <div class="card" style="border-color:rgba(240,165,0,.5)">
-        <div class="card-title" style="color:var(--accent)">🏆 最終結果</div>
+      <div class="card" style="border-color:#E8D060;border-width:1.5px">
+        <div class="card-title" style="color:var(--yellow)">最終結果</div>
         <div class="podium" id="final-podium"></div>
       </div>
     </div>
   </div>
 
 </main>
+</div><!-- /main-app -->
 
 <div class="toast" id="toast"></div>
 
-<!-- Firebase SDK -->
-<script type="module">
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getFirestore, doc, getDoc, setDoc, onSnapshot, updateDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
+<script>
+
+const ADMIN_PASSWORD = "takibimoyasupa";
+// ↑ パスワードを変更する場合はここを書き換えてください
 
 const firebaseConfig = {
   apiKey: "AIzaSyDzTetOEKF_KE-Zb0_UAB5NOCURlQTTAgQ",
@@ -536,95 +556,103 @@ const firebaseConfig = {
   appId: "1:539863702203:web:4969c0f129086b3d66e79e"
 };
 
-const app = initializeApp(firebaseConfig);
-const db = getFirestore(app);
-const TOURNAMENT_ID = "main";
-const docRef = doc(db, "tournaments", TOURNAMENT_ID);
+firebase.initializeApp(firebaseConfig);
+const db = firebase.firestore();
+const docRef = db.collection("tournaments").doc("main");
 
 let state = null;
+let isAdmin = false;
 let selectedPlayer = null;
 
 // =========================================
-// FIREBASE SYNC
+// AUTH
+// =========================================
+window.doLogin = function(){
+  const pw = document.getElementById('pw-input').value;
+  if(pw === ADMIN_PASSWORD){
+    isAdmin = true;
+    document.getElementById('login-screen').style.display = 'none';
+    document.getElementById('main-app').style.display = 'block';
+    document.getElementById('admin-tag').style.display = 'flex';
+    document.getElementById('tab-admin').style.display = 'block';
+    switchTab('admin');
+    loadState();
+  } else {
+    document.getElementById('login-error').style.display = 'block';
+    document.getElementById('pw-input').value = '';
+    document.getElementById('pw-input').focus();
+  }
+}
+
+window.goParticipant = function(){
+  isAdmin = false;
+  document.getElementById('login-screen').style.display = 'none';
+  document.getElementById('main-app').style.display = 'block';
+  document.getElementById('tab-admin').style.display = 'none';
+  document.getElementById('admin-tag').style.display = 'none';
+  switchTab('player');
+  loadState();
+}
+
+// =========================================
+// FIREBASE
 // =========================================
 async function saveState(){
-  try{
-    await setDoc(docRef, state);
-  }catch(e){
-    toast("⚠️ 保存エラー: "+e.message);
-  }
+  try{ await docRef.set(state); }
+  catch(e){ toast("保存エラー: "+e.message); }
 }
 
 async function loadState(){
   try{
-    const snap = await getDoc(docRef);
-    if(snap.exists()){
-      state = snap.data();
-    } else {
-      state = makeInitialState();
-    }
+    const snap = await docRef.get();
+    state = snap.exists ? snap.data() : makeInitialState();
     render();
-  }catch(e){
-    toast("⚠️ 読み込みエラー: "+e.message);
-  }
+  }catch(e){ toast("読み込みエラー: "+e.message); }
 }
 
-// リアルタイム同期
-onSnapshot(docRef, (snap)=>{
-  if(snap.exists()){
-    state = snap.data();
-    render();
-  }
+docRef.onSnapshot(snap => {
+  if(snap.exists){ state = snap.data(); render(); }
 });
 
 function makeInitialState(){
-  return {
-    name:"新しい大会",
-    totalRounds:4,
-    tiebreak:"buchholz",
-    players:[],
-    currentRound:0,
-    matches:[],
-    status:"setup"
-  };
+  return { name:"新しい大会", totalRounds:4, tiebreak:"buchholz",
+           players:[], currentRound:0, matches:[], status:"setup" };
 }
 
 // =========================================
 // UTILS
 // =========================================
 function toast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),2500);
+  const t = document.getElementById('toast');
+  t.textContent = msg; t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'), 2600);
 }
-
-function getScore(p){ return p.wins + p.draws*0.5 }
-
+function getScore(p){ return (p.wins||0) + (p.draws||0)*0.5 }
 function calcTiebreak(player){
-  if(!player.opponents||player.opponents.length===0) return 0;
+  if(!player.opponents||!player.opponents.length) return 0;
   if(state.tiebreak==='buchholz'){
-    return player.opponents.reduce((sum,oid)=>{
+    return player.opponents.reduce((s,oid)=>{
       const op=state.players.find(p=>p.id===oid);
-      return sum+(op?getScore(op):0);
-    },0);
-  } else {
-    return player.opponents.reduce((sum,oid)=>{
-      const op=state.players.find(p=>p.id===oid);
-      return sum+(op?op.wins:0);
+      return s+(op?getScore(op):0);
     },0);
   }
+  return player.opponents.reduce((s,oid)=>{
+    const op=state.players.find(p=>p.id===oid);
+    return s+(op?op.wins:0);
+  },0);
 }
-
 function getRoundMatches(r){ return (state.matches||[]).filter(m=>m.round===r) }
-function isRoundComplete(r){ return getRoundMatches(r).every(m=>m.result||m.isBye) }
+function isRoundComplete(r){ return getRoundMatches(r).every(m=>m.result) }
 
 // =========================================
 // TAB
 // =========================================
 window.switchTab = function(tab){
   ['admin','player','standings'].forEach(t=>{
-    document.getElementById('view-'+t).style.display = t===tab?'block':'none';
-    document.getElementById('tab-'+t).classList.toggle('active', t===tab);
+    const v=document.getElementById('view-'+t);
+    const tb=document.getElementById('tab-'+t);
+    if(v) v.style.display = t===tab?'block':'none';
+    if(tb) tb.classList.toggle('active', t===tab);
   });
   if(tab==='standings') renderStandings();
   if(tab==='player') renderPlayerView();
@@ -634,25 +662,22 @@ window.switchTab = function(tab){
 // ADMIN — SETUP
 // =========================================
 window.addPlayer = function(){
-  const inp=document.getElementById('player-input');
-  const name=inp.value.trim();
-  if(!name){toast('名前を入力してください');return}
+  const inp = document.getElementById('player-input');
+  const name = inp.value.trim();
+  if(!name){ toast('名前を入力してください'); return }
   if(!state.players) state.players=[];
-  if(state.players.find(p=>p.name===name)){toast('すでに登録されています');return}
-  if(state.players.length>=64){toast('最大64人まで');return}
+  if(state.players.find(p=>p.name===name)){ toast('すでに登録されています'); return }
+  if(state.players.length>=64){ toast('最大64人まで'); return }
   state.players.push({
     id:'p_'+Date.now()+'_'+Math.floor(Math.random()*9999),
     name, wins:0, losses:0, draws:0, opponents:[], bye:false
   });
-  inp.value='';
-  renderSetup();
-  saveState();
+  inp.value=''; renderSetup(); saveState();
 }
 
 window.removePlayer = function(id){
   state.players=state.players.filter(p=>p.id!==id);
-  renderSetup();
-  saveState();
+  renderSetup(); saveState();
 }
 
 function renderSetup(){
@@ -664,16 +689,12 @@ function renderSetup(){
 }
 
 window.startTournament = function(){
-  if(!state.players||state.players.length<2){toast('最低2人必要です');return}
-  state.name=document.getElementById('cfg-name').value||'大会';
-  state.totalRounds=parseInt(document.getElementById('cfg-rounds').value);
-  state.tiebreak=document.getElementById('cfg-tiebreak').value;
-  state.status='running';
-  state.currentRound=1;
-  state.matches=[];
-  generateRound();
-  saveState();
-  toast('大会を開始しました！');
+  if(!state.players||state.players.length<2){ toast('最低2人必要です'); return }
+  state.name = document.getElementById('cfg-name').value||'大会';
+  state.totalRounds = parseInt(document.getElementById('cfg-rounds').value);
+  state.tiebreak = document.getElementById('cfg-tiebreak').value;
+  state.status='running'; state.currentRound=1; state.matches=[];
+  generateRound(); saveState(); toast('大会を開始しました');
 }
 
 // =========================================
@@ -683,10 +704,8 @@ function generateRound(){
   const r=state.currentRound;
   let available=[...state.players].sort((a,b)=>{
     const ds=getScore(b)-getScore(a);
-    if(ds!==0)return ds;
-    return Math.random()-.5;
+    return ds!==0?ds:Math.random()-.5;
   });
-
   const roundMatches=[];
   if(available.length%2===1){
     const eligible=available.filter(p=>!p.bye).reverse();
@@ -694,27 +713,24 @@ function generateRound(){
     available=available.filter(p=>p.id!==byePlayer.id);
     const bp=state.players.find(p=>p.id===byePlayer.id);
     bp.bye=true; bp.wins++;
-    roundMatches.push({id:'m_'+r+'_bye',round:r,p1:byePlayer.id,p2:null,result:'bye',isBye:true});
+    roundMatches.push({id:'m_'+r+'_bye_'+Date.now(),round:r,p1:byePlayer.id,p2:null,result:'bye',isBye:true});
   }
-
   let tries=0;
   while(available.length>=2&&tries<500){
     tries++;
     const p1=available[0];
     let p2idx=1;
-    while(p2idx<available.length&&(p1.opponents||[]).includes(available[p2idx].id)){p2idx++}
-    if(p2idx>=available.length)p2idx=1;
+    while(p2idx<available.length&&(p1.opponents||[]).includes(available[p2idx].id)) p2idx++;
+    if(p2idx>=available.length) p2idx=1;
     const p2=available[p2idx];
-    available.splice(p2idx,1);
-    available.shift();
+    available.splice(p2idx,1); available.shift();
     const rp1=state.players.find(p=>p.id===p1.id);
     const rp2=state.players.find(p=>p.id===p2.id);
-    if(!rp1.opponents)rp1.opponents=[];
-    if(!rp2.opponents)rp2.opponents=[];
-    rp1.opponents.push(p2.id);
-    rp2.opponents.push(p1.id);
+    if(!rp1.opponents) rp1.opponents=[];
+    if(!rp2.opponents) rp2.opponents=[];
+    rp1.opponents.push(p2.id); rp2.opponents.push(p1.id);
     roundMatches.push({
-      id:'m_'+r+'_'+roundMatches.length,
+      id:'m_'+r+'_'+roundMatches.length+'_'+Date.now(),
       round:r,p1:p1.id,p2:p2.id,result:null,isBye:false
     });
   }
@@ -722,37 +738,64 @@ function generateRound(){
 }
 
 // =========================================
-// RESULT REPORT
+// RESULT — report & EDIT
 // =========================================
-window.reportResult = function(matchId, winner){
-  const match=state.matches.find(m=>m.id===matchId);
-  if(!match||match.result)return;
+function applyResult(match, winner){
+  // まず既存結果を打ち消す
   const p1=state.players.find(p=>p.id===match.p1);
   const p2=state.players.find(p=>p.id===match.p2);
-  if(winner==='draw'){
-    match.result='draw'; p1.draws++; p2.draws++;
-  } else if(winner===match.p1){
-    match.result=match.p1; p1.wins++; p2.losses++;
-  } else {
-    match.result=match.p2; p2.wins++; p1.losses++;
+  if(match.result && match.result!=='bye'){
+    if(match.result==='draw'){ p1.draws--; p2.draws--; }
+    else if(match.result===match.p1){ p1.wins--; p2.losses--; }
+    else { p2.wins--; p1.losses--; }
   }
-  saveState();
-  toast('✓ 結果を登録しました');
+  // 新しい結果を適用
+  if(winner==='draw'){ match.result='draw'; p1.draws++; p2.draws++; }
+  else if(winner===match.p1){ match.result=match.p1; p1.wins++; p2.losses++; }
+  else { match.result=match.p2; p2.wins++; p1.losses++; }
 }
 
+window.reportResult = function(matchId, winner){
+  const match=state.matches.find(m=>m.id===matchId);
+  if(!match||match.isBye) return;
+  applyResult(match, winner);
+  saveState(); toast('結果を登録しました');
+}
+
+window.editResult = function(matchId, winner){
+  const match=state.matches.find(m=>m.id===matchId);
+  if(!match||match.isBye) return;
+  applyResult(match, winner);
+  // 編集パネルを閉じる
+  const panel=document.getElementById('edit_'+matchId);
+  if(panel) panel.classList.remove('open');
+  saveState(); toast('結果を修正しました');
+}
+
+window.toggleEdit = function(matchId){
+  const panel=document.getElementById('edit_'+matchId);
+  if(panel) panel.classList.toggle('open');
+}
+
+// =========================================
+// NEXT ROUND / RESET
+// =========================================
 window.nextRound = function(){
-  if(state.status==='finished'){toast('大会は終了しています');return}
-  if(!isRoundComplete(state.currentRound)){toast('全試合の結果を入力してください');return}
+  if(state.status==='finished'){ toast('大会は終了しています'); return }
+  if(!isRoundComplete(state.currentRound)){ toast('全試合の結果を入力してください'); return }
   if(state.currentRound>=state.totalRounds){
     state.status='finished';
-    saveState();
-    toast('🏆 大会が終了しました！');
-    return;
+    saveState(); toast('大会が終了しました'); renderStandings(); return;
   }
   state.currentRound++;
-  generateRound();
-  saveState();
-  toast('ラウンド '+state.currentRound+' を開始しました！');
+  generateRound(); saveState();
+  toast('ラウンド '+state.currentRound+' を開始しました');
+}
+
+window.resetTournament = function(){
+  if(!confirm('大会をリセットして次の大会の準備をしますか？\nこの操作は取り消せません。')) return;
+  state = makeInitialState();
+  saveState(); toast('リセットしました。新しい大会を設定してください');
 }
 
 // =========================================
@@ -760,35 +803,22 @@ window.nextRound = function(){
 // =========================================
 function render(){
   if(!state) return;
-
-  // header
   document.getElementById('header-title').textContent = state.name||'SWISS DRAW';
-  if(state.status==='setup'){
-    document.getElementById('round-pill').textContent='準備中';
-  } else {
-    document.getElementById('round-pill').textContent=
-      'ラウンド '+state.currentRound+' / '+state.totalRounds;
-  }
+  document.getElementById('round-tag').textContent =
+    state.status==='setup' ? '準備中' : 'R'+state.currentRound+'/'+state.totalRounds;
 
   if(state.status==='setup'){
     document.getElementById('setup-view').style.display='block';
     document.getElementById('running-view').style.display='none';
-    // sync form
-    document.getElementById('cfg-name').value=state.name||'';
+    document.getElementById('cfg-name').value = state.name||'';
     renderSetup();
   } else {
     document.getElementById('setup-view').style.display='none';
     document.getElementById('running-view').style.display='block';
     renderRunning();
   }
-
-  // if player tab active
-  if(document.getElementById('view-player').style.display!=='none'){
-    renderPlayerView();
-  }
-  if(document.getElementById('view-standings').style.display!=='none'){
-    renderStandings();
-  }
+  if(document.getElementById('view-player').style.display!=='none') renderPlayerView();
+  if(document.getElementById('view-standings').style.display!=='none') renderStandings();
 }
 
 function renderRunning(){
@@ -801,35 +831,35 @@ function renderRunning(){
 
   const btn=document.getElementById('next-round-btn');
   if(state.status==='finished'){
-    btn.textContent='大会終了 ✓'; btn.disabled=true;
+    btn.textContent='大会終了'; btn.disabled=true;
   } else if(state.currentRound>=state.totalRounds&&isRoundComplete(state.currentRound)){
-    btn.textContent='結果を確定する 🏆'; btn.disabled=false;
+    btn.textContent='結果を確定する'; btn.disabled=false;
   } else {
-    btn.textContent='次のラウンドへ →'; btn.disabled=false;
+    btn.textContent='次のラウンドへ'; btn.disabled=false;
   }
 
   document.getElementById('admin-matches').innerHTML=
-    matches.map(m=>renderMatchHTML(m)).join('');
+    matches.map(m=>renderMatchAdmin(m)).join('');
 
-  document.getElementById('admin-player-chips').innerHTML=
+  document.getElementById('admin-player-list').innerHTML=
     (state.players||[]).map(p=>
-      `<div class="chip" style="flex-direction:column;align-items:flex-start;gap:1px;border-radius:10px;padding:.4rem .7rem">
-        <span style="font-weight:700;font-size:.82rem">${p.name}</span>
-        <span style="font-size:.68rem;color:var(--text3)">${p.wins}勝 ${p.losses}負 ${p.draws}分</span>
+      `<div class="player-list-item">
+        <div class="pli-name">${p.name}</div>
+        <div class="pli-score">${p.wins}勝 ${p.losses}負 ${p.draws}分</div>
       </div>`
     ).join('');
 }
 
-function renderMatchHTML(m){
+function renderMatchAdmin(m){
   const p1=state.players.find(p=>p.id===m.p1);
   const p2=m.p2?state.players.find(p=>p.id===m.p2):null;
   if(m.isBye){
     return `<div class="match-item">
       <div class="match-meta">
-        <span class="match-round-label">不戦勝</span>
+        <span class="match-label">不戦勝</span>
         <span class="badge badge-bye">BYE</span>
       </div>
-      <span style="font-size:.85rem;font-weight:700;color:var(--blue)">👤 ${p1?p1.name:'?'} — 不戦勝（+1点）</span>
+      <span style="font-size:.9rem;font-weight:700;color:var(--blue)">${p1?p1.name:'?'} — 不戦勝（+1点）</span>
     </div>`;
   }
   const done=!!m.result;
@@ -838,8 +868,11 @@ function renderMatchHTML(m){
   const isDraw=m.result==='draw';
   return `<div class="match-item">
     <div class="match-meta">
-      <span class="match-round-label">R${m.round} — 対戦${m.id.split('_')[2]}</span>
-      <span class="badge ${done?'badge-done':'badge-pending'}">${done?'完了':'待機中'}</span>
+      <span class="match-label">R${m.round} — 対戦${m.id.split('_')[2]}</span>
+      <div style="display:flex;gap:.4rem;align-items:center">
+        <span class="badge ${done?'badge-done':'badge-pending'}">${done?'完了':'待機中'}</span>
+        ${done?`<button class="btn btn-xs btn-secondary" onclick="toggleEdit('${m.id}')">修正</button>`:''}
+      </div>
     </div>
     <div class="match-players">
       <div class="pname ${p1win?'winner':done&&!isDraw?'loser':''}">${p1?p1.name:'?'}</div>
@@ -847,13 +880,21 @@ function renderMatchHTML(m){
       <div class="pname ${p2win?'winner':done&&!isDraw?'loser':''}">${p2?p2.name:'?'}</div>
     </div>
     ${!done?`<div class="btn-row">
-      <button class="btn btn-green" onclick="reportResult('${m.id}','${m.p1}')">🏆 ${p1?p1.name:'?'}</button>
-      <button class="btn btn-yellow" onclick="reportResult('${m.id}','draw')">🤝 引分</button>
-      <button class="btn btn-green" onclick="reportResult('${m.id}','${m.p2}')">🏆 ${p2?p2.name:'?'}</button>
-    </div>`:
-    `<div class="my-result ${isDraw?'my-draw':p1win?'my-win':'my-win'}">
-      ${isDraw?'🤝 引き分け':'🏆 '+(p1win?(p1?p1.name:'?'):(p2?p2.name:'?'))+' 勝利'}
-    </div>`}
+      <button class="btn btn-green" onclick="reportResult('${m.id}','${m.p1}')">${p1?p1.name:'?'} 勝利</button>
+      <button class="btn btn-yellow" onclick="reportResult('${m.id}','draw')">引き分け</button>
+      <button class="btn btn-green" onclick="reportResult('${m.id}','${m.p2}')">${p2?p2.name:'?'} 勝利</button>
+    </div>`:''}
+    ${done?`<div class="match-result-label ${isDraw?'result-draw':p1win?'result-win':'result-win'}">
+      ${isDraw?'引き分け':(p1win?(p1?p1.name:'?'):(p2?p2.name:'?'))+' 勝利'}
+    </div>`:''}
+    <div class="edit-result-area" id="edit_${m.id}">
+      <div class="edit-title">結果を修正する</div>
+      <div class="btn-row">
+        <button class="btn btn-green btn-sm ${p1win?'selected':''}" onclick="editResult('${m.id}','${m.p1}')">${p1?p1.name:'?'} 勝利</button>
+        <button class="btn btn-yellow btn-sm ${isDraw?'selected':''}" onclick="editResult('${m.id}','draw')">引き分け</button>
+        <button class="btn btn-green btn-sm ${p2win?'selected':''}" onclick="editResult('${m.id}','${m.p2}')">${p2?p2.name:'?'} 勝利</button>
+      </div>
+    </div>
   </div>`;
 }
 
@@ -878,7 +919,7 @@ function renderPlayerView(){
   renderPlayerSelectGrid();
   if(!selectedPlayer) return;
   const p=state&&state.players?state.players.find(pl=>pl.id===selectedPlayer):null;
-  if(!p){selectedPlayer=null;return}
+  if(!p){ selectedPlayer=null; return }
 
   document.getElementById('p-avatar').textContent=p.name[0];
   document.getElementById('p-name-disp').textContent=p.name;
@@ -889,13 +930,12 @@ function renderPlayerView(){
   const myMatches=(state.matches||[]).filter(m=>m.p1===p.id||m.p2===p.id);
   const el=document.getElementById('player-matches');
   if(myMatches.length===0){
-    el.innerHTML='<div class="card" style="text-align:center;color:var(--text3);font-size:.85rem">まだ対戦がありません</div>';
+    el.innerHTML='<div class="card" style="text-align:center;color:var(--text3)">まだ対戦がありません</div>';
     return;
   }
   el.innerHTML=myMatches.map(m=>{
     if(m.isBye)return`<div class="match-item">
-      <div class="match-meta"><span class="match-round-label">R${m.round}</span><span class="badge badge-bye">BYE</span></div>
-      <div style="font-size:.85rem;color:var(--blue);font-weight:700">不戦勝 ✓</div>
+      <div class="match-meta"><span class="match-label">R${m.round}</span><span class="badge badge-bye">不戦勝</span></div>
     </div>`;
     const opp=state.players.find(pl=>pl.id===(m.p1===p.id?m.p2:m.p1));
     const done=!!m.result;
@@ -905,23 +945,21 @@ function renderPlayerView(){
     const oppId=m.p1===p.id?m.p2:m.p1;
     return`<div class="match-item">
       <div class="match-meta">
-        <span class="match-round-label">R${m.round}</span>
+        <span class="match-label">R${m.round}</span>
         <span class="badge ${done?'badge-done':'badge-pending'}">${done?'完了':'待機中'}</span>
       </div>
       <div class="match-players">
-        <div class="pname" style="background:rgba(240,165,0,.12);border-color:rgba(240,165,0,.3)">
-          ${p.name} <span style="font-size:.65rem;color:var(--text3)">(あなた)</span>
-        </div>
+        <div class="pname self">${p.name}<br><span style="font-size:.68rem;font-weight:500">(あなた)</span></div>
         <div class="vs-label">VS</div>
         <div class="pname">${opp?opp.name:'?'}</div>
       </div>
-      ${done?`<div class="my-result ${isDraw?'my-draw':myWin?'my-win':'my-lose'}">
-        ${isDraw?'🤝 引き分け':myWin?'🏆 あなたの勝利！':'😔 敗北'}
+      ${done?`<div class="match-result-label ${isDraw?'result-draw':myWin?'result-win':'result-lose'}">
+        ${isDraw?'引き分け':myWin?'あなたの勝利':'敗北'}
       </div>`:''}
       ${canReport?`<div class="btn-row">
-        <button class="btn btn-green" onclick="reportResult('${m.id}','${p.id}')">🏆 自分の勝利</button>
-        <button class="btn btn-yellow" onclick="reportResult('${m.id}','draw')">🤝 引き分け</button>
-        <button class="btn btn-red" onclick="reportResult('${m.id}','${oppId}')">😔 自分の敗北</button>
+        <button class="btn btn-green" onclick="reportResult('${m.id}','${p.id}')">自分の勝利</button>
+        <button class="btn btn-yellow" onclick="reportResult('${m.id}','draw')">引き分け</button>
+        <button class="btn btn-red" onclick="reportResult('${m.id}','${oppId}')">自分の敗北</button>
       </div>`:''}
     </div>`;
   }).join('');
@@ -930,7 +968,7 @@ function renderPlayerView(){
 function renderPlayerSelectGrid(){
   const el=document.getElementById('player-select-grid');
   if(!state||!state.players||state.players.length===0){
-    el.innerHTML='<div style="color:var(--text3);font-size:.85rem">大会がまだ開始されていません</div>';
+    el.innerHTML='<div style="color:var(--text3);font-size:.88rem">大会がまだ開始されていません</div>';
     return;
   }
   el.innerHTML=state.players.map(p=>
@@ -945,48 +983,43 @@ function renderPlayerSelectGrid(){
 // STANDINGS
 // =========================================
 function renderStandings(){
-  if(!state||!state.players){return}
+  if(!state||!state.players) return;
   const sorted=[...state.players].sort((a,b)=>{
     const ds=getScore(b)-getScore(a);
-    if(ds!==0)return ds;
-    return calcTiebreak(b)-calcTiebreak(a);
+    return ds!==0?ds:calcTiebreak(b)-calcTiebreak(a);
   });
   const tbody=document.getElementById('standings-body');
   tbody.innerHTML=sorted.map((p,i)=>{
     const rk=i+1;
-    const tb=calcTiebreak(p).toFixed(1);
-    const sc=getScore(p).toFixed(1);
     let rCls='rank-num';
     if(rk===1)rCls+=' rank-1';
     else if(rk===2)rCls+=' rank-2';
     else if(rk===3)rCls+=' rank-3';
     return`<tr>
       <td><span class="${rCls}">${rk}</span></td>
-      <td style="font-weight:${rk<=3?800:400}">${p.name}</td>
-      <td style="text-align:center;color:var(--green)">${p.wins}</td>
-      <td style="text-align:center;color:var(--red)">${p.losses}</td>
-      <td style="text-align:center;color:var(--yellow)">${p.draws}</td>
-      <td style="text-align:center;font-weight:700">${sc}</td>
-      <td style="text-align:center;font-size:.75rem;color:var(--text3)">${tb}</td>
+      <td style="font-weight:${rk<=3?900:500}">${p.name}</td>
+      <td style="text-align:center;color:var(--green);font-weight:700">${p.wins}</td>
+      <td style="text-align:center;color:var(--red);font-weight:700">${p.losses}</td>
+      <td style="text-align:center;color:var(--yellow);font-weight:700">${p.draws}</td>
+      <td style="text-align:center;font-weight:900;font-family:'DM Mono',monospace">${getScore(p).toFixed(1)}</td>
+      <td style="text-align:center;font-size:.78rem;color:var(--text3);font-family:'DM Mono',monospace">${calcTiebreak(p).toFixed(1)}</td>
     </tr>`;
   }).join('');
-
   document.getElementById('standings-label').textContent=
     state.currentRound>0?('R'+state.currentRound+' 時点'):'';
-
   const finalDiv=document.getElementById('final-result');
   if(state.status==='finished'){
     finalDiv.style.display='block';
-    const top3=sorted.slice(0,3);
-    document.getElementById('final-podium').innerHTML=top3.map((p,i)=>
-      `<div class="podium-item">
-        <div class="podium-icon">${['🥇','🥈','🥉'][i]}</div>
-        <div>
-          <div class="podium-name">${p.name}</div>
-          <div class="podium-score">${getScore(p)}点 / タイブレーク: ${calcTiebreak(p).toFixed(1)}</div>
-        </div>
-      </div>`
-    ).join('');
+    const medals=['1位','2位','3位'];
+    document.getElementById('final-podium').innerHTML=
+      sorted.slice(0,3).map((p,i)=>`
+        <div class="podium-item">
+          <div class="podium-rank">${medals[i]}</div>
+          <div>
+            <div class="podium-name">${p.name}</div>
+            <div class="podium-score">${getScore(p)}点 / TB: ${calcTiebreak(p).toFixed(1)}</div>
+          </div>
+        </div>`).join('');
   } else {
     finalDiv.style.display='none';
   }
@@ -995,7 +1028,9 @@ function renderStandings(){
 // =========================================
 // INIT
 // =========================================
-loadState();
+// ページ読み込み時はログイン画面を表示
+document.getElementById('main-app').style.display='none';
+document.getElementById('login-screen').style.display='flex';
 </script>
 </body>
 </html>
