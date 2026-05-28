@@ -315,6 +315,16 @@ select option{background:#fff}
 .pli-name{font-weight:700;font-size:.9rem}
 .pli-score{font-size:.72rem;color:var(--text3);font-family:'DM Mono',monospace;margin-top:2px}
 
+/* ── HOST BADGE ── */
+.host-badge{
+  display:inline-block;
+  font-size:.68rem;font-weight:900;letter-spacing:.06em;
+  background:var(--accent);color:#fff;
+  border-radius:4px;padding:.18rem .55rem;
+  text-align:center;
+}
+.host-badge-me{background:var(--accent)}
+
 /* ── TOAST ── */
 .toast{
   position:fixed;bottom:24px;left:50%;
@@ -437,6 +447,15 @@ select option{background:#fff}
             onkeydown="if(event.key==='Enter')addPlayer()" />
           <button class="btn btn-primary" onclick="addPlayer()">追加</button>
         </div>
+        <div style="margin-top:.75rem;padding-top:.75rem;border-top:1px solid var(--border)">
+          <label style="margin-bottom:.4rem">TXTファイルから一括登録（改行区切り）</label>
+          <div class="input-row">
+            <input type="file" id="txt-upload" accept=".txt,text/plain"
+              style="font-size:.82rem;padding:.5rem .75rem;cursor:pointer;background:var(--bg2);border:1.5px solid var(--border);border-radius:var(--radius-sm);color:var(--text)" />
+            <button class="btn btn-secondary" onclick="loadTxt()">読み込む</button>
+          </div>
+          <div id="txt-preview" style="margin-top:.4rem;font-size:.78rem;color:var(--text3)"></div>
+        </div>
         <div class="chips" id="player-chips"></div>
         <div style="margin-top:.75rem;font-size:.82rem;color:var(--text3);font-weight:500" id="player-count">0人登録済み</div>
       </div>
@@ -544,7 +563,7 @@ select option{background:#fff}
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
 <script>
 
-const ADMIN_PASSWORD = "takibimoyasupa";
+const ADMIN_PASSWORD = "takibimoyasupaです";
 // ↑ パスワードを変更する場合はここを書き換えてください
 
 const firebaseConfig = {
@@ -688,6 +707,32 @@ function renderSetup(){
   document.getElementById('player-count').textContent=(state.players||[]).length+'人登録済み';
 }
 
+window.loadTxt = function(){
+  const fileInput = document.getElementById('txt-upload');
+  const file = fileInput.files[0];
+  if(!file){ toast('ファイルを選択してください'); return }
+  const reader = new FileReader();
+  reader.onload = function(e){
+    const lines = e.target.result.split(/\r?\n/).map(l=>l.trim()).filter(l=>l.length>0);
+    if(!state.players) state.players=[];
+    let added=0, skipped=0;
+    lines.forEach(name=>{
+      if(state.players.length>=64){ skipped++; return }
+      if(state.players.find(p=>p.name===name)){ skipped++; return }
+      state.players.push({
+        id:'p_'+Date.now()+'_'+Math.floor(Math.random()*9999),
+        name, wins:0, losses:0, draws:0, opponents:[], bye:false
+      });
+      added++;
+    });
+    document.getElementById('txt-preview').textContent =
+      lines.length+'件読み込み / '+added+'件追加' + (skipped>0?' / '+skipped+'件スキップ':'');
+    fileInput.value='';
+    renderSetup(); saveState();
+  };
+  reader.readAsText(file, 'UTF-8');
+}
+
 window.startTournament = function(){
   if(!state.players||state.players.length<2){ toast('最低2人必要です'); return }
   state.name = document.getElementById('cfg-name').value||'大会';
@@ -729,9 +774,10 @@ function generateRound(){
     if(!rp1.opponents) rp1.opponents=[];
     if(!rp2.opponents) rp2.opponents=[];
     rp1.opponents.push(p2.id); rp2.opponents.push(p1.id);
+    const matchNum = roundMatches.filter(x=>!x.isBye).length + 1;
     roundMatches.push({
       id:'m_'+r+'_'+roundMatches.length+'_'+Date.now(),
-      round:r,p1:p1.id,p2:p2.id,result:null,isBye:false
+      round:r,p1:p1.id,p2:p2.id,result:null,isBye:false,matchNum:matchNum
     });
   }
   state.matches=[...state.matches,...roundMatches];
@@ -868,16 +914,19 @@ function renderMatchAdmin(m){
   const isDraw=m.result==='draw';
   return `<div class="match-item">
     <div class="match-meta">
-      <span class="match-label">R${m.round} — 対戦${m.id.split('_')[2]}</span>
+      <span class="match-label">R${m.round} — 対戦 #${m.matchNum||''}</span>
       <div style="display:flex;gap:.4rem;align-items:center">
         <span class="badge ${done?'badge-done':'badge-pending'}">${done?'完了':'待機中'}</span>
         ${done?`<button class="btn btn-xs btn-secondary" onclick="toggleEdit('${m.id}')">修正</button>`:''}
       </div>
     </div>
     <div class="match-players">
-      <div class="pname ${p1win?'winner':done&&!isDraw?'loser':''}">${p1?p1.name:'?'}</div>
+      <div style="flex:1;display:flex;flex-direction:column;gap:3px;align-items:stretch">
+        <div class="pname ${p1win?'winner':done&&!isDraw?'loser':''}">${p1?p1.name:'?'}</div>
+        <div class="host-badge">部屋立て担当</div>
+      </div>
       <div class="vs-label">VS</div>
-      <div class="pname ${p2win?'winner':done&&!isDraw?'loser':''}">${p2?p2.name:'?'}</div>
+      <div class="pname ${p2win?'winner':done&&!isDraw?'loser':''}" style="flex:1">${p2?p2.name:'?'}</div>
     </div>
     ${!done?`<div class="btn-row">
       <button class="btn btn-green" onclick="reportResult('${m.id}','${m.p1}')">${p1?p1.name:'?'} 勝利</button>
@@ -949,9 +998,12 @@ function renderPlayerView(){
         <span class="badge ${done?'badge-done':'badge-pending'}">${done?'完了':'待機中'}</span>
       </div>
       <div class="match-players">
-        <div class="pname self">${p.name}<br><span style="font-size:.68rem;font-weight:500">(あなた)</span></div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+          ${m.p1===p.id?'<div class=\"host-badge host-badge-me\">部屋立て担当</div>':''}
+          <div class="pname self">${p.name}<br><span style="font-size:.68rem;font-weight:500">(あなた)</span></div>
+        </div>
         <div class="vs-label">VS</div>
-        <div class="pname">${opp?opp.name:'?'}</div>
+        <div class="pname" style="flex:1">${opp?opp.name:'?'}</div>
       </div>
       ${done?`<div class="match-result-label ${isDraw?'result-draw':myWin?'result-win':'result-lose'}">
         ${isDraw?'引き分け':myWin?'あなたの勝利':'敗北'}
