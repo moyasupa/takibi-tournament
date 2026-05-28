@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
-<title>スイスドロー大会</title>
+<title>焚火マッチング発表サイト</title>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=DM+Mono:wght@500&display=swap" rel="stylesheet">
 <style>
 *{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -324,6 +324,7 @@ select option{background:#fff}
   text-align:center;
 }
 .host-badge-me{background:var(--accent)}
+.host-badge-opp{background:var(--text2)}
 
 /* ── TOAST ── */
 .toast{
@@ -371,7 +372,6 @@ select option{background:#fff}
 </head>
 <body>
 
-<!-- ========== LOGIN SCREEN ========== -->
 <div class="login-wrap" id="login-screen">
   <div class="login-box">
     <h2>運営ログイン</h2>
@@ -389,7 +389,6 @@ select option{background:#fff}
   </div>
 </div>
 
-<!-- ========== MAIN APP ========== -->
 <div id="main-app" style="display:none">
 
 <header class="site-header">
@@ -408,10 +407,8 @@ select option{background:#fff}
 
 <main class="main">
 
-  <!-- ========== ADMIN ========== -->
   <div id="view-admin">
 
-    <!-- SETUP -->
     <div id="setup-view">
       <div class="card">
         <div class="card-title">大会設定</div>
@@ -465,7 +462,6 @@ select option{background:#fff}
       </button>
     </div>
 
-    <!-- RUNNING -->
     <div id="running-view" style="display:none">
       <div class="stats-row">
         <div class="stat-box"><div class="stat-val" id="s-round">-</div><div class="stat-lbl">ラウンド</div></div>
@@ -495,7 +491,6 @@ select option{background:#fff}
 
   </div>
 
-  <!-- ========== PLAYER ========== -->
   <div id="view-player" style="display:none">
     <div id="player-select-view">
       <div class="card">
@@ -523,7 +518,6 @@ select option{background:#fff}
     </div>
   </div>
 
-  <!-- ========== STANDINGS ========== -->
   <div id="view-standings" style="display:none">
     <div class="card">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:1rem">
@@ -555,9 +549,7 @@ select option{background:#fff}
   </div>
 
 </main>
-</div><!-- /main-app -->
-
-<div class="toast" id="toast"></div>
+</div><div class="toast" id="toast"></div>
 
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app-compat.js"></script>
 <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore-compat.js"></script>
@@ -914,7 +906,7 @@ function renderMatchAdmin(m){
   const isDraw=m.result==='draw';
   return `<div class="match-item">
     <div class="match-meta">
-      <span class="match-label">R${m.round} — 対戦 #${m.matchNum||''}</span>
+      <span class="match-label">R${m.round} — ルーム #${m.matchNum||''}</span>
       <div style="display:flex;gap:.4rem;align-items:center">
         <span class="badge ${done?'badge-done':'badge-pending'}">${done?'完了':'待機中'}</span>
         ${done?`<button class="btn btn-xs btn-secondary" onclick="toggleEdit('${m.id}')">修正</button>`:''}
@@ -992,18 +984,25 @@ function renderPlayerView(){
     const isDraw=m.result==='draw';
     const canReport=(m.round===state.currentRound&&!done&&state.status==='running');
     const oppId=m.p1===p.id?m.p2:m.p1;
+    
+    // 自分がp1（左側）なら自分が部屋立て。p2なら相手が部屋立て。
+    const isMeHost = m.p1 === p.id;
+
     return`<div class="match-item">
       <div class="match-meta">
-        <span class="match-label">R${m.round}</span>
+        <span class="match-label">R${m.round} — ルーム #${m.matchNum||''}</span>
         <span class="badge ${done?'badge-done':'badge-pending'}">${done?'完了':'待機中'}</span>
       </div>
       <div class="match-players">
         <div style="flex:1;display:flex;flex-direction:column;gap:3px">
-          ${m.p1===p.id?'<div class=\"host-badge host-badge-me\">部屋立て担当</div>':''}
+          ${isMeHost ? '<div class="host-badge host-badge-me">あなたが部屋立て担当</div>' : '<div class="host-badge host-badge-opp" style="opacity:0.5">ー</div>'}
           <div class="pname self">${p.name}<br><span style="font-size:.68rem;font-weight:500">(あなた)</span></div>
         </div>
         <div class="vs-label">VS</div>
-        <div class="pname" style="flex:1">${opp?opp.name:'?'}</div>
+        <div style="flex:1;display:flex;flex-direction:column;gap:3px">
+          ${!isMeHost ? '<div class="host-badge host-badge-me">相手が部屋立て担当</div>' : '<div class="host-badge host-badge-opp" style="opacity:0.5">ー</div>'}
+          <div class="pname" style="flex:1">${opp?opp.name:'?'}</div>
+        </div>
       </div>
       ${done?`<div class="match-result-label ${isDraw?'result-draw':myWin?'result-win':'result-lose'}">
         ${isDraw?'引き分け':myWin?'あなたの勝利':'敗北'}
